@@ -1,0 +1,1428 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chess Masters</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0B1020;--bg2:#131A2F;--bg3:#1a2240;
+    --green:#4ADE80;--cyan:#22D3EE;--violet:#A78BFA;
+    --text:#F8FAFC;--muted:#94A3B8;--border:rgba(148,163,184,0.12);
+    --glass:rgba(19,26,47,0.7);
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden}
+  h1,h2,h3,h4,h5{font-family:'Space Grotesk',sans-serif}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);background:rgba(11,16,32,0.8);border-bottom:1px solid var(--border);padding:0 2rem}
+  .nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.2rem;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px}
+  .logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--green),var(--cyan));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+  .nav-links{display:flex;gap:1.5rem;list-style:none}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:0.875rem;font-weight:500;transition:color 0.2s;cursor:pointer}
+  .nav-links a:hover,.nav-links a.active{color:var(--text)}
+  .nav-cta{background:linear-gradient(135deg,var(--green),var(--cyan));color:#0B1020;border:none;padding:0.5rem 1.25rem;border-radius:8px;font-weight:600;font-size:0.875rem;cursor:pointer;transition:opacity 0.2s;font-family:'Space Grotesk',sans-serif}
+  .nav-cta:hover{opacity:0.9}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+  .hamburger span{display:block;width:24px;height:2px;background:var(--muted);border-radius:2px;transition:all 0.3s}
+
+  /* PAGES */
+  .page{display:none;min-height:100vh;padding-top:64px}
+  .page.active{display:block}
+
+  /* HERO */
+  .hero{min-height:calc(100vh - 64px);display:flex;align-items:center;position:relative;overflow:hidden;padding:4rem 2rem}
+  .hero-bg{position:absolute;inset:0;overflow:hidden}
+  .hero-orb{position:absolute;border-radius:50%;filter:blur(80px);animation:float 8s ease-in-out infinite}
+  .orb1{width:500px;height:500px;background:rgba(74,222,128,0.08);top:-100px;right:-100px;animation-delay:0s}
+  .orb2{width:400px;height:400px;background:rgba(34,211,238,0.06);bottom:-50px;left:10%;animation-delay:-3s}
+  .orb3{width:300px;height:300px;background:rgba(167,139,250,0.07);top:30%;left:50%;animation-delay:-6s}
+  @keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:1280px;margin:0 auto;width:100%;align-items:center}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.2);border-radius:100px;padding:6px 16px;font-size:0.8rem;color:var(--green);margin-bottom:1.5rem}
+  .hero-badge-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+  .hero h1{font-size:clamp(2.5rem,5vw,4rem);font-weight:700;line-height:1.1;margin-bottom:1.5rem;letter-spacing:-0.02em}
+  .hero h1 .accent-green{color:var(--green)}
+  .hero h1 .accent-cyan{color:var(--cyan)}
+  .hero-sub{font-size:1.1rem;color:var(--muted);line-height:1.7;margin-bottom:2.5rem;max-width:480px}
+  .hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+  .btn-primary{background:linear-gradient(135deg,var(--green),var(--cyan));color:#0B1020;border:none;padding:0.875rem 2rem;border-radius:10px;font-weight:700;font-size:1rem;cursor:pointer;transition:transform 0.2s,opacity 0.2s;font-family:'Space Grotesk',sans-serif}
+  .btn-primary:hover{transform:translateY(-2px);opacity:0.95}
+  .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border);padding:0.875rem 2rem;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;transition:all 0.2s;font-family:'Space Grotesk',sans-serif}
+  .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+  .hero-visual{display:flex;align-items:center;justify-content:center;position:relative}
+  .chess-board-visual{width:340px;height:340px;display:grid;grid-template-columns:repeat(8,1fr);border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:0 0 60px rgba(74,222,128,0.1)}
+  .cell{aspect-ratio:1}
+  .cell.dark{background:#131A2F}
+  .cell.light{background:#1a2240}
+  .cell.highlight{background:rgba(74,222,128,0.15)}
+  .floating-piece{position:absolute;font-size:2rem;animation:floatPiece 6s ease-in-out infinite}
+  .fp1{top:-20px;right:20px;animation-delay:0s}
+  .fp2{bottom:-10px;left:10px;animation-delay:-2s}
+  .fp3{top:50%;right:-30px;animation-delay:-4s}
+  @keyframes floatPiece{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;max-width:1280px;margin:3rem auto 0;padding:0 2rem}
+  .stat-card{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center}
+  .stat-num{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:var(--green);margin-bottom:4px}
+  .stat-label{font-size:0.8rem;color:var(--muted)}
+
+  /* SECTIONS */
+  section{padding:6rem 2rem}
+  .container{max-width:1280px;margin:0 auto}
+  .section-label{font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:1rem}
+  .section-title{font-size:clamp(2rem,4vw,2.75rem);font-weight:700;margin-bottom:1rem;letter-spacing:-0.02em}
+  .section-sub{font-size:1rem;color:var(--muted);max-width:560px;line-height:1.7}
+  .header-split{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1rem}
+
+  /* FEATURE CARDS */
+  .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
+  .feature-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:2rem;transition:all 0.3s;cursor:default}
+  .feature-card:hover{transform:translateY(-4px);border-color:rgba(74,222,128,0.3);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+  .feature-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1.25rem}
+  .icon-green{background:rgba(74,222,128,0.15)}
+  .icon-cyan{background:rgba(34,211,238,0.15)}
+  .icon-violet{background:rgba(167,139,250,0.15)}
+  .icon-amber{background:rgba(251,191,36,0.15)}
+  .feature-card h3{font-size:1.1rem;font-weight:600;margin-bottom:0.5rem}
+  .feature-card p{font-size:0.875rem;color:var(--muted);line-height:1.6}
+
+  /* COACH CARDS */
+  .coach-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+  .coach-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:1.5rem;text-align:center;transition:all 0.3s}
+  .coach-card:hover{transform:translateY(-4px);border-color:rgba(34,211,238,0.3)}
+  .coach-avatar{width:80px;height:80px;border-radius:50%;margin:0 auto 1rem;font-size:2rem;display:flex;align-items:center;justify-content:center;background:var(--bg3);border:2px solid var(--border)}
+  .coach-name{font-weight:600;font-size:1rem;margin-bottom:2px}
+  .coach-rating{color:var(--cyan);font-size:0.875rem;font-weight:600;margin-bottom:4px}
+  .coach-spec{color:var(--muted);font-size:0.8rem;margin-bottom:1rem}
+  .coach-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:1rem}
+  .tag{background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2);color:var(--violet);font-size:0.7rem;padding:3px 10px;border-radius:100px}
+  .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);padding:8px 20px;border-radius:8px;font-size:0.85rem;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;font-weight:500;width:100%}
+  .btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+
+  /* JOURNEY TIMELINE */
+  .journey{display:flex;gap:0;overflow-x:auto;padding-bottom:1rem}
+  .journey-step{flex:1;min-width:160px;text-align:center;position:relative}
+  .journey-step::after{content:'';position:absolute;top:28px;left:50%;width:100%;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan))}
+  .journey-step:last-child::after{display:none}
+  .step-num{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--cyan));color:#0B1020;font-weight:700;font-size:1.1rem;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;position:relative;z-index:1}
+  .step-title{font-weight:600;font-size:0.9rem;margin-bottom:4px}
+  .step-sub{font-size:0.78rem;color:var(--muted)}
+
+  /* TOURNAMENT CARDS */
+  .tournament-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+  .tournament-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all 0.3s}
+  .tournament-card:hover{transform:translateY(-3px);border-color:rgba(74,222,128,0.3)}
+  .t-header{background:linear-gradient(135deg,rgba(74,222,128,0.1),rgba(34,211,238,0.1));padding:1.5rem;border-bottom:1px solid var(--border)}
+  .t-badge{background:rgba(74,222,128,0.15);color:var(--green);font-size:0.7rem;font-weight:600;padding:4px 12px;border-radius:100px;display:inline-block;margin-bottom:0.75rem}
+  .t-name{font-weight:700;font-size:1.1rem;margin-bottom:4px}
+  .t-body{padding:1.5rem}
+  .t-meta{display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem}
+  .t-row{display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--muted)}
+  .t-row svg{flex-shrink:0;color:var(--cyan)}
+  .btn-green{background:var(--green);color:#0B1020;border:none;padding:10px 20px;border-radius:8px;font-weight:700;font-size:0.875rem;cursor:pointer;width:100%;font-family:'Space Grotesk',sans-serif;transition:opacity 0.2s}
+  .btn-green:hover{opacity:0.9}
+
+  /* TESTIMONIALS */
+  .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+  .testimonial-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:1.75rem;transition:all 0.3s}
+  .testimonial-card:hover{transform:translateY(-3px)}
+  .stars{color:var(--green);font-size:1.1rem;margin-bottom:1rem;letter-spacing:2px}
+  .quote{font-size:0.9rem;color:var(--muted);line-height:1.7;margin-bottom:1.25rem}
+  .student-row{display:flex;align-items:center;gap:12px}
+  .student-avatar{width:40px;height:40px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:1.1rem;border:1px solid var(--border)}
+  .student-name{font-weight:600;font-size:0.9rem}
+  .student-rating{font-size:0.78rem;color:var(--green)}
+
+  /* CTA SECTION */
+  .cta-section{background:linear-gradient(135deg,rgba(74,222,128,0.05),rgba(34,211,238,0.05),rgba(167,139,250,0.05));border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center;padding:6rem 2rem}
+  .cta-section h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:1rem}
+  .cta-section p{color:var(--muted);margin-bottom:2.5rem;font-size:1.05rem}
+  .cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+  /* ABOUT PAGE */
+  .about-hero{padding:5rem 2rem 3rem;text-align:center}
+  .about-hero h1{font-size:clamp(2.5rem,5vw,4rem);margin-bottom:1rem}
+  .about-hero p{color:var(--muted);max-width:640px;margin:0 auto;line-height:1.7;font-size:1.05rem}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+  .about-text h2{font-size:1.75rem;margin-bottom:1rem}
+  .about-text p{color:var(--muted);line-height:1.8;margin-bottom:1rem;font-size:0.95rem}
+  .vision-mission{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:4rem 0}
+  .vm-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:2rem}
+  .vm-card h3{font-size:1.25rem;margin-bottom:0.75rem;color:var(--green)}
+  .vm-card p{color:var(--muted);font-size:0.9rem;line-height:1.7}
+  .timeline{position:relative;padding:2rem 0}
+  .timeline::before{content:'';position:absolute;left:50%;transform:translateX(-50%);width:2px;background:var(--border);top:0;bottom:0}
+  .tl-item{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3rem;position:relative}
+  .tl-item:nth-child(even) .tl-content{grid-column:2}
+  .tl-item:nth-child(even) .tl-year{grid-column:1;grid-row:1;text-align:right}
+  .tl-dot{position:absolute;left:50%;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;background:var(--green);top:6px;border:3px solid var(--bg)}
+  .tl-year{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.5rem;color:var(--cyan)}
+  .tl-content h4{font-weight:600;margin-bottom:4px}
+  .tl-content p{color:var(--muted);font-size:0.875rem}
+
+  /* COACHES PAGE */
+  .filter-bar{display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:2.5rem}
+  .filter-btn{background:var(--bg2);border:1px solid var(--border);color:var(--muted);padding:8px 18px;border-radius:100px;font-size:0.8rem;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif}
+  .filter-btn.active,.filter-btn:hover{background:rgba(74,222,128,0.1);border-color:var(--green);color:var(--green)}
+  .coach-card-full{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:1.75rem;transition:all 0.3s;display:flex;gap:1.5rem;align-items:flex-start}
+  .coach-card-full:hover{transform:translateY(-2px);border-color:rgba(34,211,238,0.2)}
+  .coach-avatar-lg{width:90px;height:90px;border-radius:16px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:2.5rem;flex-shrink:0;border:1px solid var(--border)}
+  .coach-info h3{font-size:1.15rem;margin-bottom:4px}
+  .coach-meta{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+  .meta-pill{background:var(--bg3);border:1px solid var(--border);color:var(--muted);font-size:0.75rem;padding:3px 10px;border-radius:100px}
+  .coach-desc{font-size:0.875rem;color:var(--muted);line-height:1.6;margin:0.75rem 0}
+  .coaches-list-grid{display:grid;gap:1.25rem}
+
+  /* PROGRAMS PAGE */
+  .program-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+  .program-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all 0.3s}
+  .program-card.featured{border-color:rgba(74,222,128,0.4)}
+  .program-card:hover{transform:translateY(-4px)}
+  .prog-header{padding:1.75rem;border-bottom:1px solid var(--border)}
+  .prog-level{font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem}
+  .prog-title{font-size:1.2rem;font-weight:700;margin-bottom:0.5rem}
+  .prog-price{font-size:2rem;font-weight:700;color:var(--green);margin-top:1rem}
+  .prog-price span{font-size:0.875rem;color:var(--muted);font-weight:400}
+  .prog-body{padding:1.75rem}
+  .prog-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem}
+  .prog-features li{display:flex;align-items:center;gap:10px;font-size:0.875rem;color:var(--muted)}
+  .prog-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+
+  /* PRICING */
+  .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-bottom:4rem}
+  .pricing-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:2rem;transition:all 0.3s}
+  .pricing-card.popular{border-color:var(--green);position:relative}
+  .pricing-card:hover{transform:translateY(-4px)}
+  .popular-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--green);color:#0B1020;font-size:0.7rem;font-weight:700;padding:4px 14px;border-radius:100px;white-space:nowrap}
+  .price-num{font-size:2.5rem;font-weight:700;margin:1rem 0 0.5rem}
+  .price-period{font-size:0.875rem;color:var(--muted)}
+  .compare-table{width:100%;border-collapse:collapse;font-size:0.875rem}
+  .compare-table th{padding:1rem;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)}
+  .compare-table td{padding:1rem;border-bottom:1px solid var(--border)}
+  .compare-table tr:hover td{background:rgba(255,255,255,0.02)}
+  .check-yes{color:var(--green)}
+  .check-no{color:var(--muted);opacity:0.3}
+
+  /* CONTACT */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+  .form-group{margin-bottom:1.25rem}
+  .form-group label{display:block;font-size:0.85rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+  .form-group input,.form-group textarea,.form-group select{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:10px;font-size:0.9rem;font-family:'Inter',sans-serif;transition:border-color 0.2s;outline:none}
+  .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--cyan)}
+  .form-group textarea{min-height:120px;resize:vertical}
+  .contact-info h3{font-size:1.25rem;margin-bottom:1.5rem}
+  .contact-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:1.25rem}
+  .contact-icon{width:40px;height:40px;border-radius:10px;background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem}
+  .contact-label{font-size:0.8rem;color:var(--muted);margin-bottom:2px}
+  .contact-value{font-size:0.9rem;font-weight:500}
+
+  /* SUCCESS STORIES */
+  .story-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+  .story-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:1.75rem;transition:all 0.3s}
+  .story-card:hover{transform:translateY(-3px)}
+  .story-rating-bar{margin:1rem 0;background:var(--bg3);border-radius:100px;height:6px;overflow:hidden}
+  .rating-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--cyan));border-radius:100px}
+
+  /* LOCATIONS */
+  .location-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+  .location-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all 0.3s}
+  .location-card:hover{transform:translateY(-3px)}
+  .location-map{height:180px;background:linear-gradient(135deg,var(--bg3),rgba(74,222,128,0.05));display:flex;align-items:center;justify-content:center;font-size:3rem;border-bottom:1px solid var(--border)}
+  .location-info{padding:1.5rem}
+  .location-name{font-weight:700;font-size:1.1rem;margin-bottom:4px}
+  .location-addr{color:var(--muted);font-size:0.85rem;line-height:1.5}
+
+  /* ACADEMY */
+  .method-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+  .method-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.5rem}
+  .method-num{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;color:rgba(74,222,128,0.2);margin-bottom:0.5rem}
+  .roadmap{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-top:2rem}
+  .roadmap-item{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.25rem;text-align:center}
+  .roadmap-icon{font-size:1.75rem;margin-bottom:0.5rem}
+  .roadmap-title{font-weight:600;font-size:0.85rem;margin-bottom:4px}
+  .roadmap-weeks{font-size:0.75rem;color:var(--cyan)}
+
+  /* TOURNAMENTS PAGE */
+  .tournament-tabs{display:flex;gap:0;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:4px;width:fit-content;margin-bottom:2rem}
+  .t-tab{padding:8px 20px;border-radius:8px;font-size:0.875rem;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;border:none;background:none;color:var(--muted);font-weight:500}
+  .t-tab.active{background:var(--bg3);color:var(--text)}
+  .leaderboard{background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+  .lb-row{display:grid;grid-template-columns:48px 1fr auto auto;align-items:center;padding:1rem 1.5rem;border-bottom:1px solid var(--border);gap:1rem;transition:background 0.2s}
+  .lb-row:hover{background:rgba(255,255,255,0.02)}
+  .lb-rank{font-weight:700;font-size:1rem;color:var(--muted)}
+  .lb-rank.top1{color:#FFD700}
+  .lb-rank.top2{color:#C0C0C0}
+  .lb-rank.top3{color:#CD7F32}
+  .lb-name{font-weight:500}
+  .lb-rating{color:var(--cyan);font-weight:600;font-size:0.9rem}
+  .lb-pts{color:var(--green);font-weight:700}
+
+  /* FOOTER */
+  footer{background:var(--bg2);border-top:1px solid var(--border);padding:4rem 2rem 2rem}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;max-width:1280px;margin:0 auto;margin-bottom:3rem}
+  .footer-brand p{color:var(--muted);font-size:0.875rem;margin-top:1rem;line-height:1.7;max-width:280px}
+  .footer-col h4{font-weight:600;font-size:0.9rem;margin-bottom:1rem}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .footer-col ul li{color:var(--muted);font-size:0.85rem;cursor:pointer;transition:color 0.2s}
+  .footer-col ul li:hover{color:var(--text)}
+  .footer-bottom{max-width:1280px;margin:0 auto;padding-top:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+  .footer-bottom p{color:var(--muted);font-size:0.8rem}
+
+  /* GRADIENT TEXT */
+  .grad-text{background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .grad-text-vp{background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+  /* DIVIDER */
+  .divider{height:1px;background:var(--border);margin:2rem 0}
+
+  /* RESPONSIVE */
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr}
+    .hero-visual{display:none}
+    .stats-row{grid-template-columns:repeat(2,1fr)}
+    .about-grid{grid-template-columns:1fr}
+    .contact-grid{grid-template-columns:1fr}
+    .footer-grid{grid-template-columns:1fr 1fr}
+    .vision-mission{grid-template-columns:1fr}
+    .nav-links{display:none}
+    .hamburger{display:flex}
+  }
+  @media(max-width:600px){
+    .stats-row{grid-template-columns:repeat(2,1fr)}
+    .footer-grid{grid-template-columns:1fr}
+    .hero h1{font-size:2rem}
+  }
+  .mobile-menu{display:none;position:fixed;inset:0;top:64px;background:var(--bg);z-index:99;padding:2rem;border-top:1px solid var(--border)}
+  .mobile-menu.open{display:flex;flex-direction:column;gap:1.5rem}
+  .mobile-menu a{color:var(--text);text-decoration:none;font-size:1.1rem;font-weight:500;cursor:pointer}
+  .whatsapp-float{position:fixed;bottom:2rem;right:2rem;z-index:200;background:#25D366;color:white;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;cursor:pointer;box-shadow:0 4px 20px rgba(37,211,102,0.4);transition:transform 0.2s}
+  .whatsapp-float:hover{transform:scale(1.1)}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" onclick="navigate('home')">
+      <div class="logo-icon">♟</div>
+      Chess Masters
+    </a>
+    <ul class="nav-links">
+      <li><a onclick="navigate('home')" id="nav-home" class="active">Home</a></li>
+      <li><a onclick="navigate('about')" id="nav-about">About</a></li>
+      <li><a onclick="navigate('coaches')" id="nav-coaches">Coaches</a></li>
+      <li><a onclick="navigate('programs')" id="nav-programs">Programs</a></li>
+      <li><a onclick="navigate('academy')" id="nav-academy">Academy</a></li>
+      <li><a onclick="navigate('tournaments')" id="nav-tournaments">Tournaments</a></li>
+      <li><a onclick="navigate('locations')" id="nav-locations">Locations</a></li>
+      <li><a onclick="navigate('stories')" id="nav-stories">Success Stories</a></li>
+      <li><a onclick="navigate('pricing')" id="nav-pricing">Pricing</a></li>
+      <li><a onclick="navigate('contact')" id="nav-contact">Contact</a></li>
+    </ul>
+    <button class="nav-cta" onclick="navigate('contact')">Book Free Trial</button>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a onclick="navigate('home');closeMenu()">Home</a>
+  <a onclick="navigate('about');closeMenu()">About</a>
+  <a onclick="navigate('coaches');closeMenu()">Coaches</a>
+  <a onclick="navigate('programs');closeMenu()">Programs</a>
+  <a onclick="navigate('academy');closeMenu()">Academy</a>
+  <a onclick="navigate('tournaments');closeMenu()">Tournaments</a>
+  <a onclick="navigate('locations');closeMenu()">Locations</a>
+  <a onclick="navigate('stories');closeMenu()">Success Stories</a>
+  <a onclick="navigate('pricing');closeMenu()">Pricing</a>
+  <a onclick="navigate('contact');closeMenu()">Contact</a>
+</div>
+
+<!-- WhatsApp Float -->
+<div class="whatsapp-float" onclick="alert('WhatsApp: +91 98765 43210')">💬</div>
+
+<!-- ===================== HOME PAGE ===================== -->
+<div class="page active" id="page-home">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg">
+      <div class="hero-orb orb1"></div>
+      <div class="hero-orb orb2"></div>
+      <div class="hero-orb orb3"></div>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge"><span class="hero-badge-dot"></span>India's #1 Chess Academy</div>
+        <h1>Master Chess With<br><span class="accent-green">Certified FIDE</span><br><span class="accent-cyan">Coaches</span></h1>
+        <p class="hero-sub">Personalized coaching, tournament preparation, and structured learning paths designed to accelerate your chess improvement from beginner to grandmaster.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="navigate('contact')">Start Free Trial</button>
+          <button class="btn-ghost" onclick="navigate('coaches')">Meet Coaches →</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div style="position:relative">
+          <div class="chess-board-visual" id="chess-board"></div>
+          <div class="floating-piece fp1">♞</div>
+          <div class="floating-piece fp2">♛</div>
+          <div class="floating-piece fp3">♜</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">500+</div><div class="stat-label">Students Trained</div></div>
+    <div class="stat-card"><div class="stat-num">20+</div><div class="stat-label">FIDE Coaches</div></div>
+    <div class="stat-card"><div class="stat-num">15K+</div><div class="stat-label">Training Hours</div></div>
+    <div class="stat-card"><div class="stat-num">1000+</div><div class="stat-label">Rating Points Gained</div></div>
+  </div>
+
+  <!-- WHY US -->
+  <section>
+    <div class="container">
+      <div class="header-split">
+        <div>
+          <div class="section-label">Why Chess Masters</div>
+          <h2 class="section-title">Built different,<br>designed to win</h2>
+        </div>
+        <p class="section-sub">We're not just a coaching service — we're a technology-driven chess development platform with measurable outcomes.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon icon-green">🎓</div>
+          <h3>Certified FIDE Coaches</h3>
+          <p>Every coach holds a FIDE title with proven tournament experience. Learn from players who've been where you want to go.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon icon-cyan">🎯</div>
+          <h3>Personalized Learning Paths</h3>
+          <p>AI-assisted assessments build a custom curriculum matching your current level, goals, and schedule.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon icon-violet">🏆</div>
+          <h3>Tournament Preparation</h3>
+          <p>From local club to national level, our coaches prep you with opening theory, endgame mastery, and psychological readiness.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon icon-amber">🌐</div>
+          <h3>Online & Offline Training</h3>
+          <p>Attend from anywhere in India via our live platform, or visit our physical centers in Delhi, Mumbai, Bangalore, and Chennai.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED COACHES -->
+  <section style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="container">
+      <div class="header-split">
+        <div>
+          <div class="section-label">Featured Coaches</div>
+          <h2 class="section-title">Train with the best</h2>
+        </div>
+        <button class="btn-ghost" onclick="navigate('coaches')">View All Coaches →</button>
+      </div>
+      <div class="coach-grid">
+        <div class="coach-card">
+          <div class="coach-avatar">♟</div>
+          <div class="coach-name">GM Arjun Mehta</div>
+          <div class="coach-rating">FIDE 2580</div>
+          <div class="coach-spec">Openings & Middlegame</div>
+          <div class="coach-tags"><span class="tag">Grandmaster</span><span class="tag">Tournaments</span></div>
+          <button class="btn-outline" onclick="navigate('coaches')">View Profile</button>
+        </div>
+        <div class="coach-card">
+          <div class="coach-avatar">♜</div>
+          <div class="coach-name">IM Priya Nair</div>
+          <div class="coach-rating">FIDE 2390</div>
+          <div class="coach-spec">Kids & Beginner Specialist</div>
+          <div class="coach-tags"><span class="tag">IM</span><span class="tag">Kids</span></div>
+          <button class="btn-outline" onclick="navigate('coaches')">View Profile</button>
+        </div>
+        <div class="coach-card">
+          <div class="coach-avatar">♞</div>
+          <div class="coach-name">FM Rohan Das</div>
+          <div class="coach-rating">FIDE 2280</div>
+          <div class="coach-spec">Endgame Mastery</div>
+          <div class="coach-tags"><span class="tag">FM</span><span class="tag">Endgame</span></div>
+          <button class="btn-outline" onclick="navigate('coaches')">View Profile</button>
+        </div>
+        <div class="coach-card">
+          <div class="coach-avatar">♛</div>
+          <div class="coach-name">CM Aanya Shah</div>
+          <div class="coach-rating">FIDE 2150</div>
+          <div class="coach-spec">Rapid & Blitz Specialist</div>
+          <div class="coach-tags"><span class="tag">CM</span><span class="tag">Blitz</span></div>
+          <button class="btn-outline" onclick="navigate('coaches')">View Profile</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEARNING JOURNEY -->
+  <section>
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3rem">
+        <div class="section-label">Your Journey</div>
+        <h2 class="section-title">From first move to<br><span class="grad-text">tournament champion</span></h2>
+      </div>
+      <div class="journey">
+        <div class="journey-step"><div class="step-num">1</div><div class="step-title">Assessment</div><div class="step-sub">Skill evaluation & goal setting</div></div>
+        <div class="journey-step"><div class="step-num">2</div><div class="step-title">Custom Plan</div><div class="step-sub">AI-personalized curriculum</div></div>
+        <div class="journey-step"><div class="step-num">3</div><div class="step-title">Weekly Coaching</div><div class="step-sub">1:1 or group sessions</div></div>
+        <div class="journey-step"><div class="step-num">4</div><div class="step-title">Practice</div><div class="step-sub">Guided tournament prep</div></div>
+        <div class="journey-step"><div class="step-num">5</div><div class="step-title">Rating Growth</div><div class="step-sub">Track improvement live</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UPCOMING TOURNAMENTS -->
+  <section style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="container">
+      <div class="header-split">
+        <div>
+          <div class="section-label">Upcoming Events</div>
+          <h2 class="section-title">Compete. Grow. Win.</h2>
+        </div>
+        <button class="btn-ghost" onclick="navigate('tournaments')">All Tournaments →</button>
+      </div>
+      <div class="tournament-grid">
+        <div class="tournament-card">
+          <div class="t-header">
+            <div class="t-badge">Open</div>
+            <div class="t-name">Delhi Summer Open 2025</div>
+            <div style="color:var(--muted);font-size:0.85rem">Standard Rating Tournament</div>
+          </div>
+          <div class="t-body">
+            <div class="t-meta">
+              <div class="t-row">📅 <span>July 15–17, 2025</span></div>
+              <div class="t-row">📍 <span>India Habitat Centre, Delhi</span></div>
+              <div class="t-row">♟ <span>Swiss System, 7 Rounds</span></div>
+              <div class="t-row">💰 <span>₹50,000 Prize Pool</span></div>
+            </div>
+            <button class="btn-green" onclick="navigate('tournaments')">Register Now</button>
+          </div>
+        </div>
+        <div class="tournament-card">
+          <div class="t-header">
+            <div class="t-badge" style="background:rgba(167,139,250,0.15);color:var(--violet)">Junior</div>
+            <div class="t-name">Chess Masters Junior Cup</div>
+            <div style="color:var(--muted);font-size:0.85rem">Under-18 Championship</div>
+          </div>
+          <div class="t-body">
+            <div class="t-meta">
+              <div class="t-row">📅 <span>August 5–6, 2025</span></div>
+              <div class="t-row">📍 <span>Mumbai Chess Club</span></div>
+              <div class="t-row">♟ <span>Round Robin</span></div>
+              <div class="t-row">💰 <span>₹25,000 Prize Pool</span></div>
+            </div>
+            <button class="btn-green" onclick="navigate('tournaments')">Register Now</button>
+          </div>
+        </div>
+        <div class="tournament-card">
+          <div class="t-header">
+            <div class="t-badge" style="background:rgba(34,211,238,0.15);color:var(--cyan)">Online</div>
+            <div class="t-name">National Rapid Masters</div>
+            <div style="color:var(--muted);font-size:0.85rem">Online Rapid Tournament</div>
+          </div>
+          <div class="t-body">
+            <div class="t-meta">
+              <div class="t-row">📅 <span>July 28, 2025</span></div>
+              <div class="t-row">📍 <span>Chess.com / Lichess</span></div>
+              <div class="t-row">♟ <span>Rapid 10+5, 9 Rounds</span></div>
+              <div class="t-row">💰 <span>₹15,000 Prize Pool</span></div>
+            </div>
+            <button class="btn-green" onclick="navigate('tournaments')">Register Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section>
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3rem">
+        <div class="section-label">Success Stories</div>
+        <h2 class="section-title">Students who <span class="grad-text">transformed</span></h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="quote">"In 6 months my rating went from 800 to 1350. The structured learning path and weekly 1:1 sessions with GM Arjun were game-changing. Chess Masters is unlike any coaching I've tried before."</p>
+          <div class="student-row">
+            <div class="student-avatar">👦</div>
+            <div><div class="student-name">Kavya Reddy, 14</div><div class="student-rating">800 → 1350 rating</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="quote">"As a working professional I needed flexible online coaching. Chess Masters delivered — my blitz rating hit 1800 in 4 months. The tournament prep module alone is worth the subscription."</p>
+          <div class="student-row">
+            <div class="student-avatar">👨</div>
+            <div><div class="student-name">Sameer Joshi, 31</div><div class="student-rating">1400 → 1800 blitz</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="quote">"My daughter qualified for the National Under-12 after just 8 months. IM Priya's kids program is phenomenal — she knows exactly how to keep children engaged and motivated."</p>
+          <div class="student-row">
+            <div class="student-avatar">👩</div>
+            <div><div class="student-name">Meena Kapoor (parent)</div><div class="student-rating">National qualifier, U-12</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="container">
+      <div class="section-label" style="margin-bottom:0.75rem">Get Started Today</div>
+      <h2 class="section-title">Start Your Chess Journey</h2>
+      <p>Join 500+ students already improving their game with India's best FIDE-certified coaches.</p>
+      <div class="cta-btns">
+        <button class="btn-primary" onclick="navigate('contact')">Book Free Trial</button>
+        <button class="btn-ghost" onclick="navigate('contact')">Talk To Us</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ABOUT PAGE ===================== -->
+<div class="page" id="page-about">
+  <div class="about-hero">
+    <div class="section-label">Our Story</div>
+    <h1>Chess education,<br><span class="grad-text">reimagined</span></h1>
+    <p>Chess Masters was founded on a single belief: that structured, personalized coaching guided by FIDE-rated professionals can transform any player at any age.</p>
+  </div>
+  <section>
+    <div class="container">
+      <div class="vision-mission">
+        <div class="vm-card">
+          <h3>🎯 Our Vision</h3>
+          <p>To become India's most trusted chess development platform — where data-driven coaching meets the timeless art of chess thinking, creating the next generation of Indian grandmasters.</p>
+        </div>
+        <div class="vm-card">
+          <h3>🚀 Our Mission</h3>
+          <p>Making elite chess coaching accessible to every Indian student regardless of geography, through a blend of technology, certified instruction, and structured competition pathways.</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="about-grid" style="margin:4rem 0">
+        <div>
+          <div class="section-label">Founder's Story</div>
+          <h2 class="section-title">Why Chess Masters was built</h2>
+          <p style="color:var(--muted);line-height:1.8;margin-bottom:1rem;font-size:0.95rem">GM Vikram Iyer, a 2550-rated grandmaster from Chennai, noticed a critical gap: India was producing chess talent, but the coaching infrastructure was fragmented and unstructured. Top coaches were inaccessible. Parents couldn't track progress. Students had no clear roadmap.</p>
+          <p style="color:var(--muted);line-height:1.8;font-size:0.95rem">In 2021, he founded Chess Masters with co-founder Ananya Krishnan (ex-IIT, chess software engineer) to build what he wished had existed — a platform combining grandmaster-level instruction with technology that tracks every improvement and connects students with exactly the right coach.</p>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:24px;padding:2.5rem;text-align:center">
+          <div style="font-size:5rem;margin-bottom:1rem">♟</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;margin-bottom:0.5rem">GM Vikram Iyer</div>
+          <div style="color:var(--cyan);font-weight:600;margin-bottom:1rem">Founder & Head Coach</div>
+          <div style="color:var(--muted);font-size:0.875rem;line-height:1.6">FIDE 2550 · 20+ years experience<br>National Champion 2012, 2015<br>Former trainer, All India Chess Federation</div>
+          <div style="margin-top:1.5rem;display:flex;justify-content:center;gap:1rem">
+            <div style="text-align:center"><div style="font-size:1.5rem;font-weight:700;color:var(--green)">8</div><div style="font-size:0.75rem;color:var(--muted)">Tournament Wins</div></div>
+            <div style="text-align:center"><div style="font-size:1.5rem;font-weight:700;color:var(--cyan)">200+</div><div style="font-size:0.75rem;color:var(--muted)">Students Coached</div></div>
+            <div style="text-align:center"><div style="font-size:1.5rem;font-weight:700;color:var(--violet)">2550</div><div style="font-size:0.75rem;color:var(--muted)">FIDE Rating</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div style="margin-top:4rem">
+        <div style="text-align:center;margin-bottom:3rem">
+          <div class="section-label">Growth Timeline</div>
+          <h2 class="section-title">Our journey so far</h2>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2rem;max-width:700px;margin:0 auto">
+          <div style="display:flex;gap:1.5rem;align-items:flex-start">
+            <div style="background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.25rem;min-width:48px">2021</div>
+            <div style="flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.25rem"><strong>Founded</strong><br><span style="color:var(--muted);font-size:0.875rem">Chess Masters launched in Delhi with 3 coaches and 45 founding students. First batch produced 2 state champions.</span></div>
+          </div>
+          <div style="display:flex;gap:1.5rem;align-items:flex-start">
+            <div style="background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.25rem;min-width:48px">2022</div>
+            <div style="flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.25rem"><strong>Online Platform Launch</strong><br><span style="color:var(--muted);font-size:0.875rem">Expanded to full online coaching. Enrolled 150 students across 12 Indian cities. Launched our first rated online tournament.</span></div>
+          </div>
+          <div style="display:flex;gap:1.5rem;align-items:flex-start">
+            <div style="background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.25rem;min-width:48px">2023</div>
+            <div style="flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.25rem"><strong>Mumbai & Bangalore Centers</strong><br><span style="color:var(--muted);font-size:0.875rem">Opened two new physical academies. Student count reached 300+. Partnered with AICF for tournament organizing.</span></div>
+          </div>
+          <div style="display:flex;gap:1.5rem;align-items:flex-start">
+            <div style="background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.25rem;min-width:48px">2024</div>
+            <div style="flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.25rem"><strong>AI-Powered Assessment Engine</strong><br><span style="color:var(--muted);font-size:0.875rem">Launched personalized AI assessment and curriculum builder. Chennai center opened. 500+ students. 3 National champions.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="cta-section">
+    <h2 class="section-title">Be part of the story</h2>
+    <p>Join the fastest-growing chess academy in India.</p>
+    <div class="cta-btns">
+      <button class="btn-primary" onclick="navigate('contact')">Start Free Trial</button>
+      <button class="btn-ghost" onclick="navigate('coaches')">Meet Our Coaches</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== COACHES PAGE ===================== -->
+<div class="page" id="page-coaches">
+  <section>
+    <div class="container">
+      <div style="margin-bottom:2.5rem">
+        <div class="section-label">Expert Faculty</div>
+        <h2 class="section-title">Our <span class="grad-text">FIDE-rated</span> coaches</h2>
+        <p style="color:var(--muted);margin-top:0.5rem">Filter by specialization, rating, or teaching style to find your perfect coach match.</p>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterCoaches('all',this)">All Coaches</button>
+        <button class="filter-btn" onclick="filterCoaches('beginner',this)">Beginner</button>
+        <button class="filter-btn" onclick="filterCoaches('intermediate',this)">Intermediate</button>
+        <button class="filter-btn" onclick="filterCoaches('advanced',this)">Advanced</button>
+        <button class="filter-btn" onclick="filterCoaches('tournament',this)">Tournament Prep</button>
+        <button class="filter-btn" onclick="filterCoaches('kids',this)">Kids</button>
+        <button class="filter-btn" onclick="filterCoaches('online',this)">Online</button>
+      </div>
+      <div class="coaches-list-grid" id="coaches-grid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== PROGRAMS PAGE ===================== -->
+<div class="page" id="page-programs">
+  <section>
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3rem">
+        <div class="section-label">Training Programs</div>
+        <h2 class="section-title">A program for <span class="grad-text">every level</span></h2>
+        <p style="color:var(--muted);max-width:520px;margin:0.5rem auto 0;line-height:1.7">Whether you're picking up a chess piece for the first time or preparing for national competition, we have a structured path built for you.</p>
+      </div>
+      <div class="program-grid">
+        <div class="program-card">
+          <div class="prog-header">
+            <div class="prog-level" style="color:var(--green)">Beginner</div>
+            <div class="prog-title">Foundation Program</div>
+            <p style="color:var(--muted);font-size:0.85rem;line-height:1.6">For absolute beginners. Learn piece movements, basic tactics, and essential opening principles.</p>
+            <div class="prog-price">₹2,999 <span>/month</span></div>
+          </div>
+          <div class="prog-body">
+            <ul class="prog-features">
+              <li>8 group sessions / month (60 min each)</li>
+              <li>Structured 12-week curriculum</li>
+              <li>Puzzle training: 30 puzzles/week</li>
+              <li>Monthly progress assessment</li>
+              <li>Access to recorded sessions</li>
+            </ul>
+            <button class="btn-green" onclick="navigate('contact')">Enroll Now</button>
+          </div>
+        </div>
+        <div class="program-card featured">
+          <div class="prog-header">
+            <div class="prog-level" style="color:var(--cyan)">Intermediate</div>
+            <div class="prog-title">Accelerator Program</div>
+            <p style="color:var(--muted);font-size:0.85rem;line-height:1.6">For 1000–1600 rated players. Deep dives into positional play, endgame technique, and opening repertoire building.</p>
+            <div class="prog-price">₹5,999 <span>/month</span></div>
+          </div>
+          <div class="prog-body">
+            <ul class="prog-features">
+              <li>4 group + 2 individual sessions / month</li>
+              <li>Opening repertoire builder (white & black)</li>
+              <li>Endgame mastery module</li>
+              <li>Game analysis (4 games/month)</li>
+              <li>Access to tournament simulations</li>
+              <li>Coach-reviewed weekly assignments</li>
+            </ul>
+            <button class="btn-green" onclick="navigate('contact')">Enroll Now</button>
+          </div>
+        </div>
+        <div class="program-card">
+          <div class="prog-header">
+            <div class="prog-level" style="color:var(--violet)">Advanced</div>
+            <div class="prog-title">Master's Track</div>
+            <p style="color:var(--muted);font-size:0.85rem;line-height:1.6">For 1600+ rated players targeting FIDE titles. Intensive preparation with grandmaster-level coaching.</p>
+            <div class="prog-price">₹9,999 <span>/month</span></div>
+          </div>
+          <div class="prog-body">
+            <ul class="prog-features">
+              <li>6 individual sessions / month (90 min)</li>
+              <li>GM-level opening preparation</li>
+              <li>Comprehensive game database access</li>
+              <li>Psychological prep & time management</li>
+              <li>FIDE tournament registration support</li>
+              <li>24/7 coach messaging</li>
+            </ul>
+            <button class="btn-green" onclick="navigate('contact')">Enroll Now</button>
+          </div>
+        </div>
+        <div class="program-card">
+          <div class="prog-header">
+            <div class="prog-level" style="color:#FBBF24">Kids Program</div>
+            <div class="prog-title">Junior Champions</div>
+            <p style="color:var(--muted);font-size:0.85rem;line-height:1.6">Age 5–15. Fun, structured learning designed to build chess fundamentals while developing critical thinking skills.</p>
+            <div class="prog-price">₹1,999 <span>/month</span></div>
+          </div>
+          <div class="prog-body">
+            <ul class="prog-features">
+              <li>8 interactive group sessions / month</li>
+              <li>Age-appropriate curriculum</li>
+              <li>Gamified progress system</li>
+              <li>Monthly parent progress reports</li>
+              <li>School tournament team support</li>
+            </ul>
+            <button class="btn-green" onclick="navigate('contact')">Enroll Now</button>
+          </div>
+        </div>
+        <div class="program-card">
+          <div class="prog-header">
+            <div class="prog-level" style="color:var(--green)">Professional</div>
+            <div class="prog-title">Tournament Elite</div>
+            <p style="color:var(--muted);font-size:0.85rem;line-height:1.6">For serious competitors targeting national and international tournaments. Fully customized coaching plan.</p>
+            <div class="prog-price">₹19,999 <span>/month</span></div>
+          </div>
+          <div class="prog-body">
+            <ul class="prog-features">
+              <li>Unlimited individual sessions</li>
+              <li>Personal GM coach assignment</li>
+              <li>Full opening + endgame library</li>
+              <li>Live tournament support & analysis</li>
+              <li>Chess engine training integration</li>
+              <li>Nutritional & focus coaching</li>
+            </ul>
+            <button class="btn-green" onclick="navigate('contact')">Enroll Now</button>
+          </div>
+        </div>
+        <div class="program-card">
+          <div class="prog-header">
+            <div class="prog-level" style="color:var(--cyan)">Corporate</div>
+            <div class="prog-title">Corporate Chess</div>
+            <p style="color:var(--muted);font-size:0.85rem;line-height:1.6">Strategic thinking & decision-making through chess. Team building workshops and corporate championships.</p>
+            <div class="prog-price">₹49,999 <span>/batch</span></div>
+          </div>
+          <div class="prog-body">
+            <ul class="prog-features">
+              <li>8-session corporate module</li>
+              <li>Up to 20 participants</li>
+              <li>Custom strategic thinking curriculum</li>
+              <li>Inter-company tournament hosting</li>
+              <li>Certificate of completion</li>
+              <li>Team building + leadership focus</li>
+            </ul>
+            <button class="btn-green" onclick="navigate('contact')">Enroll Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== ACADEMY PAGE ===================== -->
+<div class="page" id="page-academy">
+  <section>
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3rem">
+        <div class="section-label">Teaching Philosophy</div>
+        <h2 class="section-title">How we <span class="grad-text">teach chess</span></h2>
+        <p style="color:var(--muted);max-width:560px;margin:0.5rem auto 0;line-height:1.7">Our methodology blends classical chess pedagogy with modern AI-assisted analysis to deliver results faster than traditional coaching.</p>
+      </div>
+      <div class="method-grid">
+        <div class="method-card">
+          <div class="method-num">01</div>
+          <h3 style="margin-bottom:0.5rem">Assess First</h3>
+          <p style="color:var(--muted);font-size:0.875rem;line-height:1.6">Every student begins with a comprehensive position assessment — puzzles, game analysis, and interview — to benchmark strengths, weaknesses, and learning style.</p>
+        </div>
+        <div class="method-card">
+          <div class="method-num">02</div>
+          <h3 style="margin-bottom:0.5rem">Pattern Recognition</h3>
+          <p style="color:var(--muted);font-size:0.875rem;line-height:1.6">Chess improvement is pattern recognition. Our structured puzzle library builds tactical vision methodically — mating patterns, forks, pins, skewers, and beyond.</p>
+        </div>
+        <div class="method-card">
+          <div class="method-num">03</div>
+          <h3 style="margin-bottom:0.5rem">Game Analysis</h3>
+          <p style="color:var(--muted);font-size:0.875rem;line-height:1.6">Every game you play is reviewed with your coach. We identify decision patterns, time trouble habits, and the exact moments where improvement happens.</p>
+        </div>
+        <div class="method-card">
+          <div class="method-num">04</div>
+          <h3 style="margin-bottom:0.5rem">Compete Regularly</h3>
+          <p style="color:var(--muted);font-size:0.875rem;line-height:1.6">We integrate tournament play from the very beginning. Real competition under real pressure is irreplaceable — and we prepare you for it systematically.</p>
+        </div>
+      </div>
+      <div style="margin-top:5rem">
+        <div style="text-align:center;margin-bottom:2rem">
+          <div class="section-label">Skill Roadmap</div>
+          <h2 style="font-size:1.75rem;font-weight:700">Your progress milestones</h2>
+        </div>
+        <div class="roadmap">
+          <div class="roadmap-item"><div class="roadmap-icon">📚</div><div class="roadmap-title">Chess Basics</div><div class="roadmap-weeks">Weeks 1–4</div></div>
+          <div class="roadmap-item"><div class="roadmap-icon">🧩</div><div class="roadmap-title">Tactics & Puzzles</div><div class="roadmap-weeks">Weeks 5–12</div></div>
+          <div class="roadmap-item"><div class="roadmap-icon">♟</div><div class="roadmap-title">Opening Theory</div><div class="roadmap-weeks">Weeks 13–20</div></div>
+          <div class="roadmap-item"><div class="roadmap-icon">🏰</div><div class="roadmap-title">Positional Play</div><div class="roadmap-weeks">Weeks 21–32</div></div>
+          <div class="roadmap-item"><div class="roadmap-icon">⚔️</div><div class="roadmap-title">Endgame Mastery</div><div class="roadmap-weeks">Weeks 33–48</div></div>
+          <div class="roadmap-item"><div class="roadmap-icon">🏆</div><div class="roadmap-title">Tournament Play</div><div class="roadmap-weeks">Ongoing</div></div>
+        </div>
+      </div>
+      <div style="margin-top:5rem;background:var(--bg2);border:1px solid var(--border);border-radius:24px;padding:3rem">
+        <div style="text-align:center;margin-bottom:2rem">
+          <div class="section-label">Weekly Study Plan</div>
+          <h2 style="font-size:1.75rem;font-weight:700">Typical training week</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem">
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.25rem">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--cyan)">Monday</div>
+            <div style="font-size:0.875rem;color:var(--muted)">Puzzle training (30 min)<br>Opening review (30 min)</div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.25rem">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--green)">Tuesday</div>
+            <div style="font-size:0.875rem;color:var(--muted)">Coaching session (60–90 min)<br>Game analysis</div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.25rem">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--cyan)">Wednesday</div>
+            <div style="font-size:0.875rem;color:var(--muted)">Puzzle training (30 min)<br>Endgame study (30 min)</div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.25rem">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--violet)">Thursday</div>
+            <div style="font-size:0.875rem;color:var(--muted)">Practice games (online)<br>Self-review with engine</div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.25rem">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--green)">Friday</div>
+            <div style="font-size:0.875rem;color:var(--muted)">Group coaching session<br>Tactics & combinations</div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.25rem">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--cyan)">Weekend</div>
+            <div style="font-size:0.875rem;color:var(--muted)">Tournament / Rapid games<br>Review with coach</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== TOURNAMENTS PAGE ===================== -->
+<div class="page" id="page-tournaments">
+  <section>
+    <div class="container">
+      <div style="margin-bottom:2rem">
+        <div class="section-label">Competition</div>
+        <h2 class="section-title">Tournaments & <span class="grad-text">Events</span></h2>
+      </div>
+      <div class="tournament-tabs">
+        <button class="t-tab active" onclick="switchTab('upcoming',this)">Upcoming</button>
+        <button class="t-tab" onclick="switchTab('results',this)">Results</button>
+        <button class="t-tab" onclick="switchTab('leaderboard',this)">Leaderboard</button>
+      </div>
+
+      <div id="tab-upcoming">
+        <div class="tournament-grid">
+          <div class="tournament-card">
+            <div class="t-header"><div class="t-badge">Open</div><div class="t-name">Delhi Summer Open 2025</div><div style="color:var(--muted);font-size:0.85rem">₹50,000 Prize Pool</div></div>
+            <div class="t-body"><div class="t-meta"><div class="t-row">📅 <span>July 15–17, 2025</span></div><div class="t-row">📍 <span>India Habitat Centre, Delhi</span></div><div class="t-row">♟ <span>Swiss, 7 Rounds · Standard</span></div></div><button class="btn-green">Register — ₹500 entry</button></div>
+          </div>
+          <div class="tournament-card">
+            <div class="t-header"><div class="t-badge" style="background:rgba(167,139,250,0.15);color:var(--violet)">Junior U-18</div><div class="t-name">Chess Masters Junior Cup</div><div style="color:var(--muted);font-size:0.85rem">₹25,000 Prize Pool</div></div>
+            <div class="t-body"><div class="t-meta"><div class="t-row">📅 <span>August 5–6, 2025</span></div><div class="t-row">📍 <span>Mumbai Chess Club</span></div><div class="t-row">♟ <span>Round Robin · Rapid</span></div></div><button class="btn-green">Register — Free for students</button></div>
+          </div>
+          <div class="tournament-card">
+            <div class="t-header"><div class="t-badge" style="background:rgba(34,211,238,0.15);color:var(--cyan)">Online</div><div class="t-name">National Rapid Masters</div><div style="color:var(--muted);font-size:0.85rem">₹15,000 Prize Pool</div></div>
+            <div class="t-body"><div class="t-meta"><div class="t-row">📅 <span>July 28, 2025</span></div><div class="t-row">📍 <span>Online</span></div><div class="t-row">♟ <span>Rapid 10+5, 9 Rounds</span></div></div><button class="btn-green">Register — ₹299 entry</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-results" style="display:none">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden">
+          <div style="padding:1.5rem 1.5rem 0"><h3 style="font-size:1.1rem;margin-bottom:1rem">Past Tournament Results</h3></div>
+          <table style="width:100%;border-collapse:collapse;font-size:0.875rem">
+            <thead><tr style="border-bottom:1px solid var(--border)"><th style="padding:1rem 1.5rem;text-align:left;color:var(--muted);font-weight:500">Tournament</th><th style="padding:1rem;text-align:left;color:var(--muted);font-weight:500">Date</th><th style="padding:1rem;text-align:left;color:var(--muted);font-weight:500">Winner</th><th style="padding:1rem;text-align:left;color:var(--muted);font-weight:500">Rating</th></tr></thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:1rem 1.5rem">Chess Masters Open Apr 2025</td><td style="padding:1rem;color:var(--muted)">Apr 20</td><td style="padding:1rem;color:var(--green)">GM Arjun Mehta</td><td style="padding:1rem;color:var(--cyan)">2580</td></tr>
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:1rem 1.5rem">National Junior Rapid</td><td style="padding:1rem;color:var(--muted)">Mar 12</td><td style="padding:1rem;color:var(--green)">Riya Sharma</td><td style="padding:1rem;color:var(--cyan)">1820</td></tr>
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:1rem 1.5rem">Chess Masters Blitz Cup</td><td style="padding:1rem;color:var(--muted)">Feb 28</td><td style="padding:1rem;color:var(--green)">Anand Pillai</td><td style="padding:1rem;color:var(--cyan)">2110</td></tr>
+              <tr><td style="padding:1rem 1.5rem">Delhi Winter Open 2024</td><td style="padding:1rem;color:var(--muted)">Dec 10</td><td style="padding:1rem;color:var(--green)">FM Rohan Das</td><td style="padding:1rem;color:var(--cyan)">2280</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="tab-leaderboard" style="display:none">
+        <div class="leaderboard">
+          <div style="padding:1.5rem 1.5rem 0.5rem;font-weight:600">2025 Annual Rankings</div>
+          <div class="lb-row"><div class="lb-rank top1">🥇</div><div class="lb-name">GM Arjun Mehta<br><span style="font-size:0.75rem;color:var(--muted)">Delhi</span></div><div class="lb-rating">2580</div><div class="lb-pts">124 pts</div></div>
+          <div class="lb-row"><div class="lb-rank top2">🥈</div><div class="lb-name">FM Rohan Das<br><span style="font-size:0.75rem;color:var(--muted)">Mumbai</span></div><div class="lb-rating">2280</div><div class="lb-pts">98 pts</div></div>
+          <div class="lb-row"><div class="lb-rank top3">🥉</div><div class="lb-name">Anand Pillai<br><span style="font-size:0.75rem;color:var(--muted)">Chennai</span></div><div class="lb-rating">2110</div><div class="lb-pts">87 pts</div></div>
+          <div class="lb-row"><div class="lb-rank">4</div><div class="lb-name">Riya Sharma<br><span style="font-size:0.75rem;color:var(--muted)">Bangalore</span></div><div class="lb-rating">1820</div><div class="lb-pts">72 pts</div></div>
+          <div class="lb-row"><div class="lb-rank">5</div><div class="lb-name">Kavya Reddy<br><span style="font-size:0.75rem;color:var(--muted)">Hyderabad</span></div><div class="lb-rating">1350</div><div class="lb-pts">61 pts</div></div>
+          <div class="lb-row"><div class="lb-rank">6</div><div class="lb-name">Sameer Joshi<br><span style="font-size:0.75rem;color:var(--muted)">Pune</span></div><div class="lb-rating">1800</div><div class="lb-pts">55 pts</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== LOCATIONS PAGE ===================== -->
+<div class="page" id="page-locations">
+  <section>
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3rem">
+        <div class="section-label">Find Us</div>
+        <h2 class="section-title">Centers across <span class="grad-text">India</span></h2>
+        <p style="color:var(--muted);max-width:500px;margin:0.5rem auto 0">Train at our physical academies or join any center's sessions online. Same quality instruction, everywhere.</p>
+      </div>
+      <div class="location-grid">
+        <div class="location-card">
+          <div class="location-map">🗺️</div>
+          <div class="location-info">
+            <div class="location-name">Delhi — Flagship Center</div>
+            <div class="location-addr" style="margin:8px 0">India Habitat Centre, Lodi Road, New Delhi 110003</div>
+            <div style="font-size:0.8rem;color:var(--green);margin-bottom:8px">Mon–Sat: 9am–8pm</div>
+            <div style="font-size:0.85rem;color:var(--muted)">📞 +91 98765 43210</div>
+          </div>
+        </div>
+        <div class="location-card">
+          <div class="location-map">🗺️</div>
+          <div class="location-info">
+            <div class="location-name">Mumbai Center</div>
+            <div class="location-addr" style="margin:8px 0">Nariman Point Business Hub, Level 4, Mumbai 400021</div>
+            <div style="font-size:0.8rem;color:var(--green);margin-bottom:8px">Mon–Sat: 10am–7pm</div>
+            <div style="font-size:0.85rem;color:var(--muted)">📞 +91 98765 43211</div>
+          </div>
+        </div>
+        <div class="location-card">
+          <div class="location-map">🗺️</div>
+          <div class="location-info">
+            <div class="location-name">Bangalore Center</div>
+            <div class="location-addr" style="margin:8px 0">Koramangala 5th Block, Bangalore 560034</div>
+            <div style="font-size:0.8rem;color:var(--green);margin-bottom:8px">Mon–Sat: 9am–7pm</div>
+            <div style="font-size:0.85rem;color:var(--muted)">📞 +91 98765 43212</div>
+          </div>
+        </div>
+        <div class="location-card">
+          <div class="location-map">🗺️</div>
+          <div class="location-info">
+            <div class="location-name">Chennai Center</div>
+            <div class="location-addr" style="margin:8px 0">T Nagar, Chennai 600017</div>
+            <div style="font-size:0.8rem;color:var(--green);margin-bottom:8px">Mon–Sat: 9am–7pm</div>
+            <div style="font-size:0.85rem;color:var(--muted)">📞 +91 98765 43213</div>
+          </div>
+        </div>
+        <div class="location-card" style="border-color:rgba(34,211,238,0.3)">
+          <div class="location-map" style="background:linear-gradient(135deg,rgba(34,211,238,0.08),rgba(167,139,250,0.08))">🌐</div>
+          <div class="location-info">
+            <div class="location-name">Online — All India</div>
+            <div class="location-addr" style="margin:8px 0">Live sessions via Zoom & our custom platform. Students from any Indian city or abroad.</div>
+            <div style="font-size:0.8rem;color:var(--cyan);margin-bottom:8px">Sessions 7 days/week — flexible timing</div>
+            <div style="font-size:0.85rem;color:var(--muted)">✉️ online@chessmasters.in</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== SUCCESS STORIES PAGE ===================== -->
+<div class="page" id="page-stories">
+  <section>
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3rem">
+        <div class="section-label">Transformations</div>
+        <h2 class="section-title">Real students,<br><span class="grad-text">real results</span></h2>
+      </div>
+      <div class="story-grid">
+        <div class="story-card">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem">
+            <div style="width:50px;height:50px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:1.4rem">👦</div>
+            <div><div style="font-weight:600">Aryan Gupta, 15</div><div style="font-size:0.8rem;color:var(--muted)">Delhi · 14 months training</div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;font-size:0.8rem;color:var(--muted)"><span>Rating growth</span><span style="color:var(--green);font-weight:600">750 → 1620</span></div>
+          <div class="story-rating-bar"><div class="rating-fill" style="width:75%"></div></div>
+          <p style="font-size:0.875rem;color:var(--muted);line-height:1.6;margin-top:1rem">"I went from knowing basic moves to winning my first state championship. The personalized curriculum was exactly what I needed."</p>
+          <div style="margin-top:1rem;display:flex;gap:8px;flex-wrap:wrap">
+            <span class="tag">State Champion U-16</span>
+            <span class="tag" style="color:var(--cyan);border-color:rgba(34,211,238,0.2);background:rgba(34,211,238,0.05)">+870 rating</span>
+          </div>
+        </div>
+        <div class="story-card">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem">
+            <div style="width:50px;height:50px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:1.4rem">👩</div>
+            <div><div style="font-weight:600">Prisha Verma, 12</div><div style="font-size:0.8rem;color:var(--muted)">Mumbai · 8 months training</div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;font-size:0.8rem;color:var(--muted)"><span>Rating growth</span><span style="color:var(--green);font-weight:600">Unrated → 1180</span></div>
+          <div class="story-rating-bar"><div class="rating-fill" style="width:55%"></div></div>
+          <p style="font-size:0.875rem;color:var(--muted);line-height:1.6;margin-top:1rem">"IM Priya made chess so fun! I never thought I'd be playing in national tournaments this quickly. Chess Masters is amazing."</p>
+          <div style="margin-top:1rem;display:flex;gap:8px;flex-wrap:wrap">
+            <span class="tag">National U-12 Qualifier</span>
+          </div>
+        </div>
+        <div class="story-card">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem">
+            <div style="width:50px;height:50px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:1.4rem">👨</div>
+            <div><div style="font-weight:600">Deepak Menon, 28</div><div style="font-size:0.8rem;color:var(--muted)">Bangalore · 6 months</div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;font-size:0.8rem;color:var(--muted)"><span>Blitz rating</span><span style="color:var(--green);font-weight:600">1100 → 1780</span></div>
+          <div class="story-rating-bar"><div class="rating-fill" style="width:65%"></div></div>
+          <p style="font-size:0.875rem;color:var(--muted);line-height:1.6;margin-top:1rem">"As someone who learned chess as a kid but never progressed, Chess Masters reignited my passion with a structured approach that actually works."</p>
+          <div style="margin-top:1rem;display:flex;gap:8px;flex-wrap:wrap">
+            <span class="tag">+680 blitz rating</span>
+            <span class="tag" style="color:var(--cyan);border-color:rgba(34,211,238,0.2);background:rgba(34,211,238,0.05)">Tournament winner</span>
+          </div>
+        </div>
+        <div class="story-card">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem">
+            <div style="width:50px;height:50px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:1.4rem">👩</div>
+            <div><div style="font-weight:600">Kavya Reddy, 14</div><div style="font-size:0.8rem;color:var(--muted)">Hyderabad · 6 months</div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;font-size:0.8rem;color:var(--muted)"><span>Rating growth</span><span style="color:var(--green);font-weight:600">800 → 1350</span></div>
+          <div class="story-rating-bar"><div class="rating-fill" style="width:60%"></div></div>
+          <p style="font-size:0.875rem;color:var(--muted);line-height:1.6;margin-top:1rem">"My rating jumped 550 points in 6 months! The structured curriculum and my coach GM Arjun made all the difference."</p>
+          <div style="margin-top:1rem;display:flex;gap:8px;flex-wrap:wrap">
+            <span class="tag">+550 rating</span>
+          </div>
+        </div>
+        <div class="story-card">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem">
+            <div style="width:50px;height:50px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:1.4rem">👨</div>
+            <div><div style="font-weight:600">Vikrant Singh, 19</div><div style="font-size:0.8rem;color:var(--muted)">Delhi · 18 months</div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;font-size:0.8rem;color:var(--muted)"><span>Rating growth</span><span style="color:var(--green);font-weight:600">1600 → 2050</span></div>
+          <div class="story-rating-bar"><div class="rating-fill" style="width:85%"></div></div>
+          <p style="font-size:0.875rem;color:var(--muted);line-height:1.6;margin-top:1rem">"Crossed 2000 FIDE in just 18 months on the Master's Track. The GM-level opening prep and game analysis sessions are elite."</p>
+          <div style="margin-top:1rem;display:flex;gap:8px;flex-wrap:wrap">
+            <span class="tag">2000+ FIDE</span>
+            <span class="tag" style="color:var(--cyan);border-color:rgba(34,211,238,0.2);background:rgba(34,211,238,0.05)">CM title candidate</span>
+          </div>
+        </div>
+        <div class="story-card">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem">
+            <div style="width:50px;height:50px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:1.4rem">👩</div>
+            <div><div style="font-weight:600">Tanya Agarwal, 10</div><div style="font-size:0.8rem;color:var(--muted)">Chennai · 12 months</div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;font-size:0.8rem;color:var(--muted)"><span>Rating growth</span><span style="color:var(--green);font-weight:600">Unrated → 950</span></div>
+          <div class="story-rating-bar"><div class="rating-fill" style="width:40%"></div></div>
+          <p style="font-size:0.875rem;color:var(--muted);line-height:1.6;margin-top:1rem">"My daughter went from never having played to winning her school's chess championship in under a year. Extraordinary program."</p>
+          <div style="margin-top:1rem;display:flex;gap:8px;flex-wrap:wrap">
+            <span class="tag">School Champion</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== PRICING PAGE ===================== -->
+<div class="page" id="page-pricing">
+  <section>
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3rem">
+        <div class="section-label">Investment</div>
+        <h2 class="section-title">Transparent, flexible <span class="grad-text">pricing</span></h2>
+        <p style="color:var(--muted);max-width:500px;margin:0.5rem auto 0">No hidden fees. Cancel anytime. Your first trial session is completely free.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="section-label" style="font-size:0.7rem">Individual</div>
+          <div style="font-weight:700;font-size:1.1rem;margin:6px 0">Pay Per Session</div>
+          <div class="price-num">₹799</div>
+          <div class="price-period">per 60-min session</div>
+          <div class="divider"></div>
+          <ul class="prog-features" style="margin:1rem 0">
+            <li>Any available coach</li>
+            <li>Flexible scheduling</li>
+            <li>Session recording</li>
+            <li>No commitment</li>
+          </ul>
+          <button class="btn-outline" onclick="navigate('contact')">Book Session</button>
+        </div>
+        <div class="pricing-card">
+          <div class="section-label" style="font-size:0.7rem">Group</div>
+          <div style="font-weight:700;font-size:1.1rem;margin:6px 0">Group Classes</div>
+          <div class="price-num">₹2,999</div>
+          <div class="price-period">per month · 8 sessions</div>
+          <div class="divider"></div>
+          <ul class="prog-features" style="margin:1rem 0">
+            <li>4–8 students per group</li>
+            <li>Structured curriculum</li>
+            <li>Puzzle assignments</li>
+            <li>Monthly assessment</li>
+          </ul>
+          <button class="btn-outline" onclick="navigate('contact')">Join Group</button>
+        </div>
+        <div class="pricing-card popular">
+          <div class="popular-badge">Most Popular</div>
+          <div class="section-label" style="font-size:0.7rem;color:var(--green)">Monthly</div>
+          <div style="font-weight:700;font-size:1.1rem;margin:6px 0">Accelerator Plan</div>
+          <div class="price-num" style="color:var(--green)">₹5,999</div>
+          <div class="price-period">per month</div>
+          <div class="divider"></div>
+          <ul class="prog-features" style="margin:1rem 0">
+            <li>6 sessions (4 group + 2 individual)</li>
+            <li>Custom learning path</li>
+            <li>Opening repertoire builder</li>
+            <li>Game analysis (4/month)</li>
+            <li>Tournament simulation access</li>
+          </ul>
+          <button class="btn-green" onclick="navigate('contact')">Start Free Trial</button>
+        </div>
+        <div class="pricing-card">
+          <div class="section-label" style="font-size:0.7rem">Annual</div>
+          <div style="font-weight:700;font-size:1.1rem;margin:6px 0">Annual Membership</div>
+          <div class="price-num">₹49,999</div>
+          <div class="price-period">per year <span style="color:var(--green);font-size:0.8rem">— Save 30%</span></div>
+          <div class="divider"></div>
+          <ul class="prog-features" style="margin:1rem 0">
+            <li>Everything in Accelerator</li>
+            <li>Priority coach selection</li>
+            <li>Free tournament entries (3/year)</li>
+            <li>Annual performance review</li>
+            <li>1 free GM masterclass</li>
+          </ul>
+          <button class="btn-outline" onclick="navigate('contact')">Join Annual</button>
+        </div>
+      </div>
+      <div style="margin-top:3rem">
+        <h3 style="margin-bottom:1.5rem;font-size:1.25rem">Feature comparison</h3>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:auto">
+          <table class="compare-table" style="min-width:600px">
+            <thead><tr><th>Feature</th><th style="text-align:center">Per Session</th><th style="text-align:center">Group</th><th style="text-align:center;color:var(--green)">Accelerator</th><th style="text-align:center">Annual</th></tr></thead>
+            <tbody>
+              <tr><td>Individual Sessions</td><td style="text-align:center" class="check-yes">1</td><td style="text-align:center" class="check-no">—</td><td style="text-align:center" class="check-yes">2/mo</td><td style="text-align:center" class="check-yes">4/mo</td></tr>
+              <tr><td>Group Sessions</td><td style="text-align:center" class="check-no">—</td><td style="text-align:center" class="check-yes">8/mo</td><td style="text-align:center" class="check-yes">4/mo</td><td style="text-align:center" class="check-yes">8/mo</td></tr>
+              <tr><td>Opening Repertoire</td><td style="text-align:center" class="check-no">—</td><td style="text-align:center" class="check-no">—</td><td style="text-align:center" class="check-yes">✓</td><td style="text-align:center" class="check-yes">✓</td></tr>
+              <tr><td>Game Analysis</td><td style="text-align:center" class="check-no">—</td><td style="text-align:center" class="check-no">—</td><td style="text-align:center" class="check-yes">4/mo</td><td style="text-align:center" class="check-yes">8/mo</td></tr>
+              <tr><td>Tournament Entry</td><td style="text-align:center" class="check-no">—</td><td style="text-align:center" class="check-no">—</td><td style="text-align:center" class="check-no">—</td><td style="text-align:center" class="check-yes">3 free/yr</td></tr>
+              <tr><td>GM Masterclass</td><td style="text-align:center" class="check-no">—</td><td style="text-align:center" class="check-no">—</td><td style="text-align:center" class="check-no">—</td><td style="text-align:center" class="check-yes">1 free/yr</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== CONTACT PAGE ===================== -->
+<div class="page" id="page-contact">
+  <section>
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3rem">
+        <div class="section-label">Get In Touch</div>
+        <h2 class="section-title">Book your <span class="grad-text">free trial</span></h2>
+        <p style="color:var(--muted);max-width:480px;margin:0.5rem auto 0">Your first session is on us. Fill out the form and our team will match you with the right coach within 24 hours.</p>
+      </div>
+      <div class="contact-grid">
+        <div>
+          <div class="form-group"><label>Full Name *</label><input type="text" placeholder="Rahul Sharma" /></div>
+          <div class="form-group"><label>Email Address *</label><input type="email" placeholder="rahul@example.com" /></div>
+          <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+91 98765 43210" /></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div class="form-group"><label>Current Rating</label><input type="text" placeholder="Unrated / 1200" /></div>
+            <div class="form-group"><label>Age</label><input type="number" placeholder="15" /></div>
+          </div>
+          <div class="form-group">
+            <label>Program Interest</label>
+            <select>
+              <option>Select a program...</option>
+              <option>Beginner Foundation</option>
+              <option>Intermediate Accelerator</option>
+              <option>Advanced Master's Track</option>
+              <option>Kids Junior Champions</option>
+              <option>Tournament Elite</option>
+              <option>Corporate Chess</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Your Goals & Message</label><textarea placeholder="Tell us a bit about your chess background and what you're hoping to achieve..."></textarea></div>
+          <button class="btn-primary" style="width:100%" onclick="alert('Thank you! We\'ll contact you within 24 hours.')">Send Message & Book Trial →</button>
+          <p style="color:var(--muted);font-size:0.8rem;margin-top:0.75rem;text-align:center">No credit card required. Your first session is completely free.</p>
+        </div>
+        <div>
+          <div class="contact-info">
+            <h3>Other ways to reach us</h3>
+            <div class="contact-item">
+              <div class="contact-icon">📞</div>
+              <div><div class="contact-label">Phone</div><div class="contact-value">+91 98765 43210</div></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">✉️</div>
+              <div><div class="contact-label">Email</div><div class="contact-value">hello@chessmasters.in</div></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">💬</div>
+              <div><div class="contact-label">WhatsApp</div><div class="contact-value">+91 98765 43210 — Chat with us now</div></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div><div class="contact-label">Headquarters</div><div class="contact-value">India Habitat Centre, Lodi Road, New Delhi 110003</div></div>
+            </div>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-top:2rem">
+            <h4 style="margin-bottom:1rem;font-size:1rem">What happens after you book?</h4>
+            <div style="display:flex;flex-direction:column;gap:1rem">
+              <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:24px;height:24px;border-radius:50%;background:var(--green);color:#0B1020;font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div><div style="font-size:0.875rem;color:var(--muted)">Our team calls you within 24 hours to understand your goals</div></div>
+              <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:24px;height:24px;border-radius:50%;background:var(--cyan);color:#0B1020;font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div><div style="font-size:0.875rem;color:var(--muted)">We match you with a coach based on your level, schedule, and goals</div></div>
+              <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:24px;height:24px;border-radius:50%;background:var(--violet);color:#0B1020;font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div><div style="font-size:0.875rem;color:var(--muted)">Your free 60-minute trial session is scheduled at your convenience</div></div>
+              <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:24px;height:24px;border-radius:50%;background:rgba(74,222,128,0.3);color:var(--green);font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</div><div style="font-size:0.875rem;color:var(--muted)">After the trial, receive a personalized improvement plan — no pressure to continue</div></div>
+            </div>
+          </div>
+          <div style="background:linear-gradient(135deg,rgba(74,222,128,0.08),rgba(34,211,238,0.08));border:1px solid rgba(74,222,128,0.2);border-radius:16px;padding:1.5rem;margin-top:1.5rem">
+            <div style="font-weight:600;margin-bottom:0.5rem">Social Media</div>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:0.75rem">
+              <span style="color:var(--cyan);font-size:0.875rem;cursor:pointer">Instagram</span>
+              <span style="color:var(--cyan);font-size:0.875rem;cursor:pointer">YouTube</span>
+              <span style="color:var(--cyan);font-size:0.875rem;cursor:pointer">Twitter/X</span>
+              <span style="color:var(--cyan);font-size:0.875rem;cursor:pointer">LinkedIn</span>
+              <span style="color:var(--cyan);font-size:0.875rem;cursor:pointer">Chess.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo" style="margin-bottom:0.75rem;display:inline-flex">
+        <div class="logo-icon">♟</div>
+        <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;color:var(--text);margin-left:8px">Chess Masters</span>
+      </div>
+      <p>India's leading technology-driven chess academy. Connecting ambitious players with FIDE-certified coaches for measurable improvement.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <ul>
+        <li onclick="navigate('about')">About Us</li>
+        <li onclick="navigate('coaches')">Our Coaches</li>
+        <li onclick="navigate('programs')">Programs</li>
+        <li onclick="navigate('academy')">Academy</li>
+        <li onclick="navigate('pricing')">Pricing</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Compete</h4>
+      <ul>
+        <li onclick="navigate('tournaments')">Tournaments</li>
+        <li onclick="navigate('stories')">Success Stories</li>
+        <li onclick="navigate('locations')">Locations</li>
+        <li onclick="navigate('contact')">Contact</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li>Privacy Policy</li>
+        <li>Terms of Service</li>
+        <li>Refund Policy</li>
+        <li>Cookie Policy</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Chess Masters Pvt. Ltd. · Made with ♟ in India</p>
+    <p style="color:var(--muted);font-size:0.8rem">FIDE Affiliated Academy · AICF Partner</p>
+  </div>
+</footer>
+
+<script>
+// ========== CHESS BOARD GENERATOR ==========
+(function(){
+  var board=document.getElementById('chess-board');
+  if(!board)return;
+  var h=['','','','','','','',''];
+  for(var r=0;r<8;r++){
+    for(var c=0;c<8;c++){
+      var cell=document.createElement('div');
+      var dark=(r+c)%2===1;
+      var hl=(r===3&&c===3)||(r===3&&c===4)||(r===4&&c===3)||(r===4&&c===4);
+      cell.className='cell '+(hl?'highlight':(dark?'dark':'light'));
+      board.appendChild(cell);
+    }
+  }
+})();
+
+// ========== NAVIGATION ==========
+function navigate(page){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+  document.querySelectorAll('.nav-links a').forEach(function(a){a.classList.remove('active')});
+  var target=document.getElementById('page-'+page);
+  if(target){target.classList.add('active');window.scrollTo(0,0)}
+  var navEl=document.getElementById('nav-'+page);
+  if(navEl)navEl.classList.add('active');
+  if(page==='coaches')renderCoaches('all');
+}
+
+function toggleMenu(){
+  var m=document.getElementById('mobile-menu');
+  m.classList.toggle('open');
+}
+function closeMenu(){
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+// ========== COACHES DATA ==========
+var coaches=[
+  {emoji:'♟',name:'GM Arjun Mehta',rating:'2580',peak:'2612',country:'India',exp:'18 years',spec:'Openings & Middlegame Strategy',langs:'Hindi, English',students:120,cats:['advanced','tournament','intermediate'],desc:'National Champion 2012 & 2015. Trained under coach Ruslan Ponomariov. Specializes in building complete opening repertoires and complex middlegame navigation for aspiring tournament players.'},
+  {emoji:'♛',name:'IM Priya Nair',rating:'2390',peak:'2410',country:'India',exp:'12 years',spec:'Kids & Beginner Coaching',langs:'Malayalam, English, Tamil',students:85,cats:['beginner','kids','online'],desc:'International Master and certified child development specialist. Her interactive, gamified approach to chess fundamentals has produced multiple national U-12 champions.'},
+  {emoji:'♜',name:'FM Rohan Das',rating:'2280',peak:'2295',country:'India',exp:'9 years',spec:'Endgame Mastery & Rook Endings',langs:'Bengali, Hindi, English',students:64,cats:['intermediate','advanced','tournament'],desc:'FIDE Master with a published book on rook endgames. Meticulous and analytical, Rohan\'s students consistently outperform in time-trouble situations through his technical precision training.'},
+  {emoji:'♞',name:'CM Aanya Shah',rating:'2150',peak:'2160',country:'India',exp:'7 years',spec:'Rapid & Blitz Training',langs:'Gujarati, Hindi, English',students:48,cats:['beginner','intermediate','online'],desc:'Candidate Master and online rapid specialist with a rating of 2300 on Chess.com. Aanya\'s high-energy sessions focus on pattern recognition and clock management for fast formats.'},
+  {emoji:'♟',name:'NM Vikash Rao',rating:'2050',peak:'2080',country:'India',exp:'6 years',spec:'Tactical Combinations',langs:'Telugu, Hindi, English',students:52,cats:['beginner','intermediate','kids','online'],desc:'National Master and tactics trainer. Developed Chess Masters\' proprietary puzzle training system with over 5,000 curated exercises organized by theme and difficulty.'},
+  {emoji:'♛',name:'IM Shreya Pillai',rating:'2310',peak:'2340',country:'India',exp:'10 years',spec:'Women\'s Chess & Tournament Prep',langs:'Tamil, English',students:71,cats:['advanced','tournament','intermediate'],desc:'Two-time Women\'s National rapid champion. Shreya specializes in preparing students for rated FIDE tournaments with psychological coaching, time management, and preparation for specific opponents.'},
+];
+
+function renderCoaches(filter){
+  var grid=document.getElementById('coaches-grid');
+  if(!grid)return;
+  var filtered=filter==='all'?coaches:coaches.filter(function(c){return c.cats.indexOf(filter)>-1});
+  grid.innerHTML=filtered.map(function(c){
+    return '<div class="coach-card-full">'+
+      '<div class="coach-avatar-lg">'+c.emoji+'</div>'+
+      '<div class="coach-info" style="flex:1">'+
+        '<h3>'+c.name+'</h3>'+
+        '<div class="coach-meta">'+
+          '<span class="meta-pill" style="color:var(--cyan)">FIDE '+c.rating+'</span>'+
+          '<span class="meta-pill">Peak: '+c.peak+'</span>'+
+          '<span class="meta-pill">'+c.exp+'</span>'+
+          '<span class="meta-pill">'+c.students+' students</span>'+
+          '<span class="meta-pill">'+c.langs+'</span>'+
+        '</div>'+
+        '<div style="font-size:0.8rem;color:var(--violet);font-weight:600;margin-bottom:6px">'+c.spec+'</div>'+
+        '<p class="coach-desc">'+c.desc+'</p>'+
+        '<div style="display:flex;gap:10px;margin-top:1rem">'+
+          '<button class="btn-outline" style="width:auto;padding:8px 20px" onclick="navigate(\'contact\')">Book Session</button>'+
+          '<button class="btn-outline" style="width:auto;padding:8px 20px;border-color:rgba(167,139,250,0.3);color:var(--violet)" onclick="navigate(\'contact\')">View Profile</button>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function filterCoaches(filter,btn){
+  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  renderCoaches(filter);
+}
+
+// ========== TOURNAMENT TABS ==========
+function switchTab(tab,btn){
+  document.querySelectorAll('.t-tab').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  ['upcoming','results','leaderboard'].forEach(function(t){
+    var el=document.getElementById('tab-'+t);
+    if(el)el.style.display=t===tab?'block':'none';
+  });
+}
+
+// ========== INIT ==========
+navigate('home');
+</script>
+</body>
+</html>
