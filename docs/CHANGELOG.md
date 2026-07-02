@@ -6,6 +6,38 @@ Format: `[Version] — YYYY-MM-DD — Description`
 
 ---
 
+## [0.4.7] — 2026-07-02 — CM007: Build Reusable Card Component
+
+### Added
+- `app/src/components/ui/Card.tsx` — Production-ready Card visual container component with glassmorphic styling.
+  - **Variants**: `glass`, `elevated`
+  - **Padding options**: `none`, `sm`, `md`, `lg`
+  - **Hoverable mode**: Optional visual hover effects (lift, border glow, shadow)
+  - Implements `React.forwardRef<HTMLDivElement>` for ref forwarding
+  - Set `Card.displayName = "Card"` for debugging clarity
+  - Pure CSS hover effects (no JavaScript mouse handlers)
+  - Full TypeScript support with exported `CardProps` interface
+  - Uses semantic design tokens from CM003/CM004
+  - Serves as primitive visual container for composition
+
+### Architectural Decisions
+- Removed redundant "default" variant (no duplicate APIs until visual differences exist)
+- Deferred spotlight mouse-tracking effect to future composable wrapper
+- Deferred CardHeader, CardFooter, CardMedia, CardActions to future tasks
+- Card is a semantic `<div>` — consumers add interactivity when needed
+- `hoverable` prop controls visual styling only, not click behavior
+
+### Changed
+- `docs/TASKS.md` — Marked CM007 as complete.
+- `docs/SESSION.md` — Updated current phase to CM007 completion.
+
+### Status
+- Build verified: `npm run build` passed ✅
+- Linting verified: `npm run lint` passed ✅
+- Dev server verified: `npm run dev` started successfully ✅
+
+---
+
 ## [0.4.6] — 2026-07-02 — CM006: Build Reusable Button Component
 
 ### Added

@@ -192,6 +192,105 @@ Any refactor that touches more than 3 files is a project-wide refactor and requi
 
 ---
 
+## Component Standards
+
+Every reusable component must satisfy ALL of the following:
+
+1. **Single Responsibility Principle** — One clear purpose, no unrelated concerns
+2. **Semantic Public API** — Props expose intent, not implementation details
+3. **No Business Logic** — Components handle presentation only
+4. **Strong TypeScript Typing** — Exported interfaces, no `any` types
+5. **Uses Only Semantic Design Tokens** — Never hardcode colors, spacing, or fonts
+6. **No Duplicated Styling** — Extract shared patterns into primitives
+7. **Composition Over Inheritance** — Build complex components by composing simple ones
+8. **Fully Documented** — TSDoc comments for props and component purpose
+9. **Must Pass All Verification** — `npm run build`, `npm run lint`, `npm run dev`
+10. **Must Be Reused** — At least one production feature must consume it before MVP completion
+
+---
+
+## Planning Standard
+
+Every implementation plan must always contain:
+
+1. **Why This Task Exists** — Context and motivation
+2. **Scope Assessment** — What's in scope, what's explicitly out of scope
+3. **Prototype Mapping** — Which prototype sections are being extracted
+4. **Component Contract** — Purpose, consumers, public API, extension rules
+5. **Files to Modify** — Complete list of files to create or change
+6. **Files Intentionally NOT Modified** — What we're explicitly avoiding
+7. **Responsibilities Explicitly Excluded** — What this component will NOT do
+8. **Accessibility Strategy** — Keyboard, screen reader, semantic HTML considerations
+9. **Verification Plan** — How to test the implementation
+10. **Definition of Done** — Clear acceptance criteria
+
+---
+
+## Prototype Mapping
+
+Every future implementation plan must explicitly document:
+
+- **Prototype Source** — Which sections of `prototype/index.html` are referenced
+- **Referenced Sections** — Specific HTML structures or CSS classes being extracted
+- **Elements Being Extracted** — What's being converted to React components
+- **Elements Intentionally Deferred** — What's being postponed to future tasks
+
+**Rules:**
+- The prototype remains the single visual source of truth
+- No redesigns
+- No invented layouts
+- No improvements to approved designs
+
+---
+
+## Component Contract
+
+Every reusable component must document:
+
+- **Purpose** — What problem does this solve?
+- **Consumers** — Who will use this component?
+- **Public API** — What props are exposed and why?
+- **Extension Rules** — How should this component be composed or extended?
+- **Future Deferred Features** — What functionality is intentionally postponed?
+
+---
+
+## Responsibility Check
+
+Every implementation plan must explicitly answer:
+
+**"This component IS responsible for:"**
+- List specific concerns this component handles
+
+**"This component IS NOT responsible for:"**
+- List specific concerns explicitly excluded
+
+This check is **mandatory** for every component implementation plan.
+
+---
+
+## Architecture Philosophy
+
+**Prefer:**
+- Small components
+- Focused responsibilities
+- Composable primitives
+- Clear boundaries
+
+**Never:**
+- Create "God Components" that do too much
+- Add unrelated props to existing components
+- Mix presentation with business logic
+- Duplicate styling patterns
+
+**Always:**
+- Choose composition instead of adding unrelated props
+- Extract shared patterns into reusable primitives
+- Keep components small and focused
+- Document extension points clearly
+
+---
+
 ## Quick Reference
 
 | # | Rule |
@@ -216,6 +315,12 @@ Any refactor that touches more than 3 files is a project-wide refactor and requi
 | 18 | Wait for founder review |
 | 19 | Preserve existing functionality |
 | 20 | Never perform project-wide refactors |
+| 21 | Component Standards (10 requirements) |
+| 22 | Planning Standard (10 mandatory sections) |
+| 23 | Prototype Mapping (document source, extractions, deferrals) |
+| 24 | Component Contract (purpose, consumers, API, extensions) |
+| 25 | Responsibility Check (IS/IS NOT responsible for) |
+| 26 | Architecture Philosophy (composition over inheritance) |
 
 ---
 

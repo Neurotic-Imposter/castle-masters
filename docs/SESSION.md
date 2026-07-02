@@ -8,28 +8,31 @@
 ## Current Session
 
 **Date**: 2026-07-02
-**Phase**: Phase 1 — CM006 (Build Reusable Button Component)
+**Phase**: Phase 1 — CM007 (Build Reusable Card Component)
 **Status**: ✅ Complete
 
 ### What Was Completed This Session
 
-- Built production-ready `Button` component inside `app/src/components/ui/Button.tsx`.
-- Implemented all required variants (`primary`, `secondary`, `outline`, `ghost`) using semantic design tokens from CM003/CM004.
-- Implemented all required sizes (`sm`, `md`, `lg`).
-- Implemented all required states (`default`, `hover`, `focus`, `disabled`, `loading`).
-- Added inline loading spinner (no external dependencies).
-- Full TypeScript support with exported `ButtonProps` interface.
-- Accessibility: keyboard focus, disabled state, aria-busy for loading.
+- Built production-ready `Card` visual container component inside `app/src/components/ui/Card.tsx`.
+- Implemented variants (`glass`, `elevated`) using semantic design tokens from CM003/CM004.
+- Implemented padding options (`none`, `sm`, `md`, `lg`).
+- Implemented `hoverable` prop for visual hover effects (lift, border glow, shadow).
+- Removed redundant "default" variant (no duplicate APIs until visual differences exist).
+- Implemented `React.forwardRef<HTMLDivElement>` for ref forwarding consistency with Button.
+- Set `Card.displayName = "Card"` after component declaration.
+- No JavaScript mouse handlers — pure CSS hover effects only.
+- Deferred spotlight effect to future composable wrapper.
+- Full TypeScript support with exported `CardProps` interface.
 - Verified with `npm run build`, `npm run lint`, and `npm run dev` — all passed.
 
 ### Currently Active
 
-- CM006 completed ✅
-- Next milestone: **CM007+ — Build global Navbar and Footer components**
+- CM007 completed ✅
+- Next milestone: **CM008+ — Build additional UI components or global layout elements**
 
 ### Next Session Should Begin With
 
-1. Begin CM007+ or other UI component tasks as directed.
+1. Begin CM008+ or other UI/layout component tasks as directed.
 
 ---
 
