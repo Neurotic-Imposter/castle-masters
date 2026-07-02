@@ -1,0 +1,223 @@
+# Castle Masters — Development Rules
+
+> This is the permanent development constitution for the Castle Masters repository.
+> Every rule applies to every session, every agent, and every task.
+> No exceptions without explicit written founder approval.
+
+---
+
+## Rules
+
+### Rule 1 — Prototype is Frozen
+
+`prototype/index.html` is permanently frozen.
+
+It must **never** be opened, modified, restructured, or touched in any way during production development. It exists solely as the visual source of truth for reference reading.
+
+---
+
+### Rule 2 — Never Redesign Approved UI
+
+Do not improve, simplify, modernize, or alter any visual design decision that has been implemented in the prototype.
+
+Implement what the prototype shows — exactly. If you believe a design decision is wrong, flag it for founder review. Do not silently change it.
+
+---
+
+### Rule 3 — One CM Task Per Implementation Session
+
+Each implementation session handles exactly **one CM task** from `TASKS.md`.
+
+Do not combine tasks. Do not start a new task until the current one is reviewed and approved.
+
+---
+
+### Rule 4 — Never Scan the Entire Repository
+
+Do not read every file in the project looking for context.
+
+Read only the specific files required to complete the current task. If you are unsure which files are needed, ask before reading.
+
+---
+
+### Rule 5 — Read Only Required Files
+
+Before starting any task, identify the exact files you need to read. Read only those files.
+
+Do not open files "just in case." Every unnecessary file read is wasted context.
+
+---
+
+### Rule 6 — Never Modify Unrelated Files
+
+If a file is not in the scope of the current CM task, do not modify it.
+
+Even if you notice a bug, typo, or improvement opportunity in an unrelated file — leave it. Log it as a separate observation. Fix it only in a dedicated task.
+
+---
+
+### Rule 7 — Explain Affected Files Before Implementation
+
+Before writing any code, explicitly list:
+- Every file that will be **created**
+- Every file that will be **modified**
+- Why each file is part of this task
+
+If a file is not on this list, do not touch it.
+
+---
+
+### Rule 8 — Explain Implementation Plan Before Writing Code
+
+Before writing any code, describe:
+- What you are building
+- How it works
+- What design decisions are being made
+- What the output will look like
+
+Wait for confirmation before proceeding if the plan is non-trivial.
+
+---
+
+### Rule 9 — Implement Only the Requested CM Task
+
+The task description in `TASKS.md` defines the exact scope of work.
+
+Do not add extra features. Do not refactor adjacent code. Do not improve unrelated components. Build exactly what the task asks for — nothing more.
+
+---
+
+### Rule 10 — Keep Components Reusable
+
+Every component must have a single, clear responsibility.
+
+Components must accept props for all variable content. Do not hardcode strings, colors, or layout decisions that callers should control.
+
+---
+
+### Rule 11 — Prefer Composition Over Duplication
+
+If two components share structure, extract a shared primitive. Do not copy-paste component code.
+
+Build small, composable primitives. Assemble them into larger sections. Never duplicate logic.
+
+---
+
+### Rule 12 — Use Strict TypeScript
+
+- No `any` types — ever
+- All props must be explicitly typed with interfaces
+- All function parameters and return values must be typed
+- All API response shapes must be typed
+- Enable and respect all strict TypeScript compiler options
+
+---
+
+### Rule 13 — Backend Remains Inside Next.js
+
+All backend logic is implemented as Next.js App Router API Routes inside `app/api/`.
+
+Do not introduce a separate server (Express, Fastify, NestJS, etc.). Do not use serverless functions on external platforms. Everything runs inside Next.js on Vercel.
+
+---
+
+### Rule 14 — Cart, Payments, and Chess Puzzles Are Independent Modules
+
+These three modules must never be coupled to each other:
+
+- `modules/cart` — cart state and operations
+- `modules/payments` — Razorpay integration
+- `modules/puzzles` — chess puzzle logic
+
+The Chess Puzzles module must not depend on cart or payment state. Free puzzles must always be accessible without payment. Each module is developed and deployable independently.
+
+---
+
+### Rule 15 — Never Invent Business Data
+
+The following must **never** be invented, generated, or assumed:
+- Founder names
+- Coach names or biographies
+- FIDE ratings
+- Student names or testimonials
+- Tournament winners, venues, dates, or results
+- Addresses or phone numbers
+- Pricing of any kind
+
+Use professional placeholders. If real data is needed, request it from the founder before proceeding.
+
+---
+
+### Rule 16 — Update Docs After Every Completed Task
+
+After completing any CM task, update these three files before stopping:
+
+1. **`docs/TASKS.md`** — Mark the task `✅ Complete`
+2. **`docs/SESSION.md`** — Record what was done and what comes next
+3. **`docs/CHANGELOG.md`** — Add a versioned entry describing the work
+
+No task is complete until these three files are updated.
+
+---
+
+### Rule 17 — Stop After Every Completed CM Task
+
+After completing a CM task and updating the three documentation files, **stop**.
+
+Do not begin the next task. Do not add "bonus" improvements. Do not continue unless the founder explicitly instructs otherwise.
+
+---
+
+### Rule 18 — Wait for Founder Review
+
+After stopping, wait for founder review and explicit approval before beginning the next task.
+
+If the founder says "continue," proceed to the next task. If the founder says nothing, do not proceed.
+
+---
+
+### Rule 19 — Preserve Existing Functionality
+
+Never break what already works.
+
+Before modifying any existing file, understand its current behavior. After modification, verify the existing functionality still works. If a change risks breaking existing behavior, flag it before making the change.
+
+---
+
+### Rule 20 — Never Perform Project-Wide Refactors
+
+Do not rename conventions project-wide. Do not restructure directory layouts. Do not change import patterns across all files.
+
+Any refactor that touches more than 3 files is a project-wide refactor and requires explicit founder approval as a named CM task.
+
+---
+
+## Quick Reference
+
+| # | Rule |
+|---|---|
+| 1 | Prototype is frozen |
+| 2 | Never redesign approved UI |
+| 3 | One CM task per session |
+| 4 | Never scan the entire repository |
+| 5 | Read only required files |
+| 6 | Never modify unrelated files |
+| 7 | Explain affected files first |
+| 8 | Explain implementation plan first |
+| 9 | Implement only the requested task |
+| 10 | Keep components reusable |
+| 11 | Prefer composition over duplication |
+| 12 | Use strict TypeScript |
+| 13 | Backend stays inside Next.js |
+| 14 | Cart, Payments, Chess Puzzles are independent modules |
+| 15 | Never invent business data |
+| 16 | Update TASKS.md, SESSION.md, CHANGELOG.md after every task |
+| 17 | Stop after every completed CM task |
+| 18 | Wait for founder review |
+| 19 | Preserve existing functionality |
+| 20 | Never perform project-wide refactors |
+
+---
+
+*Last updated: 2026-07-02*
+*Authority: Founder-approved*
