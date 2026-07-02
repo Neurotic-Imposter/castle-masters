@@ -8,25 +8,25 @@
 ## Current Session
 
 **Date**: 2026-07-02
-**Phase**: Phase 1 — CM002 (Configure Google Fonts)
+**Phase**: Phase 1 — CM003 (Global Design Tokens)
 **Status**: ✅ Complete
 
 ### What Was Completed This Session
 
-- Configured Next.js to load `Space_Grotesk` and `Inter` from `next/font/google`
-- Replaced default Geist fonts with Space Grotesk (`--font-heading`) and Inter (`--font-sans`)
-- Applied font CSS variables to the root HTML layout
-- Verified development server and production build run successfully
+- Extracted all global visual design tokens (colors, typography scales, spacing scales, borders, elevation, motion, z-index layers) from the frozen HTML prototype.
+- Centralized all tokens as CSS custom properties (`--bg`, `--accent-emerald`, etc.) inside `app/src/app/globals.css`.
+- Preserved existing Next.js base configurations and `@import "tailwindcss"`.
+- Verified build succeeds and global placeholder page maintains appearance.
 
 ### Currently Active
 
-- CM002 completed ✅
-- Next milestone: **CM003 — Set up global animation keyframes**
+- CM003 completed ✅
+- Next milestone: **CM004 — Configure Tailwind with brand design tokens**
 
 ### Next Session Should Begin With
 
-1. Begin CM003: Extract animation keyframes to `styles/animations.css`
-2. Begin CM004: Register custom tokens in `tailwind.config.ts`
+1. Begin CM004: Register custom tokens in `tailwind.config.ts`
+2. Begin CM005: Create root layout with providers and global imports
 
 ---
 

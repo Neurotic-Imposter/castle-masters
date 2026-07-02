@@ -6,6 +6,19 @@ Format: `[Version] — YYYY-MM-DD — Description`
 
 ---
 
+## [0.4.3] — 2026-07-02 — CM003: Global Design Tokens
+
+### Added
+- `app/src/app/globals.css` — Extracted and centralized all semantic CSS custom properties from the prototype (Colors, Typography, Spacing, Borders, Elevation, Motion, Z-Index) directly into `:root`.
+
+### Changed
+- `docs/TASKS.md` — Marked CM003 as complete and updated description to match the refined scope (Global Design Tokens).
+
+### Status
+- Build successfully verified.
+
+---
+
 ## [0.4.2] — 2026-07-02 — CM002: Configure Google Fonts
 
 ### Changed

@@ -32,8 +32,8 @@ Each task includes:
 |---|---|---|---|---|---|
 | CM001 | Clean up default Next.js boilerplate and setup minimal UI | ✅ | `app/layout.tsx`, `app/page.tsx` | CM0S1 | Minimal placeholder displayed, defaults removed |
 | CM002 | Configure Google Fonts (Space Grotesk + Inter) | ✅ | `app/layout.tsx` | CM001 | Fonts load correctly; headings use Space Grotesk, body uses Inter |
-| CM003 | Set up global animation keyframes | 🔲 | `styles/animations.css` | CM001 | All keyframes from prototype (`boardFloat`, `pieceFloat`, `pulseGlow`, etc.) extracted |
-| CM004 | Configure Tailwind with brand design tokens | 🔲 | `tailwind.config.ts` | CM001 | Custom colors, fonts, spacing tokens registered in Tailwind config |
+| CM003 | Set up global design tokens and CSS variables | ✅ | `app/src/app/globals.css` | CM002 | All brand tokens (`--bg`, `--accent-emerald`, spacing, etc.) defined and matching prototype |
+| CM004 | Configure Tailwind with brand design tokens | 🔲 | `tailwind.config.ts` | CM003 | Custom colors, fonts, spacing tokens registered in Tailwind config |
 
 ---
 
