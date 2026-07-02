@@ -6,6 +6,18 @@ Format: `[Version] — YYYY-MM-DD — Description`
 
 ---
 
+## [0.4.1] — 2026-07-02 — CM001: Minimal Production Placeholder
+
+### Changed
+- `app/layout.tsx` — Updated metadata to "Castle Masters" and "Building stronger positions."
+- `app/page.tsx` — Removed Next.js default boilerplate and added a centered, minimal placeholder message.
+- `docs/TASKS.md` — Marked CM001 as complete and updated its description.
+
+### Status
+- Build successfully verified.
+
+---
+
 ## [0.4.0] — 2026-07-02 — Documentation Synchronization
 
 ### Changed
