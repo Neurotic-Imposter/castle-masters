@@ -88,10 +88,89 @@
 }
 
 @theme inline {
+  /* Colors */
   --color-background: var(--bg);
   --color-foreground: var(--text);
+  --color-bg-card: var(--bg-card);
+  --color-bg-card-hover: var(--bg-card-hover);
+  --color-border: var(--border);
+  --color-border-hover: var(--border-hover);
+  --color-emerald: var(--accent-emerald);
+  --color-cyan: var(--accent-cyan);
+  --color-violet: var(--accent-violet);
+  --color-text-muted: var(--text-muted);
+  --color-glass: var(--glass);
+  --color-glass-nav: var(--glass-nav);
+
+  /* Typography */
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-heading);
+  --font-weight-light: var(--font-weight-light);
+  --font-weight-regular: var(--font-weight-regular);
+  --font-weight-medium: var(--font-weight-medium);
+  --font-weight-semibold: var(--font-weight-semibold);
+  --font-weight-bold: var(--font-weight-bold);
+  --line-height-hero: var(--line-height-hero);
+  --line-height-title: var(--line-height-title);
+  --line-height-body: var(--line-height-body);
+  --tracking-heading: var(--letter-spacing-heading);
+  --tracking-badge: var(--letter-spacing-badge);
+  --tracking-label: var(--letter-spacing-label);
+
+  /* Spacing */
+  --spacing-1: var(--spacing-1);
+  --spacing-1-5: var(--spacing-1-5);
+  --spacing-2: var(--spacing-2);
+  --spacing-2-5: var(--spacing-2-5);
+  --spacing-3: var(--spacing-3);
+  --spacing-3-5: var(--spacing-3-5);
+  --spacing-4: var(--spacing-4);
+  --spacing-4-5: var(--spacing-4-5);
+  --spacing-5: var(--spacing-5);
+  --spacing-5-5: var(--spacing-5-5);
+  --spacing-6: var(--spacing-6);
+  --spacing-7: var(--spacing-7);
+  --spacing-12: var(--spacing-12);
+  --spacing-20: var(--spacing-20);
+  --spacing-24: var(--spacing-24);
+  --spacing-28: var(--spacing-28);
+  --spacing-32: var(--spacing-32);
+  --spacing-36: var(--spacing-36);
+  --spacing-48: var(--spacing-48);
+  --spacing-64: var(--spacing-64);
+  --spacing-80: var(--spacing-80);
+  --spacing-120: var(--spacing-120);
+
+  /* Borders & Radii */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-3xl: var(--radius-3xl);
+  --radius-full: var(--radius-full);
+  --radius-circle: var(--radius-circle);
+  --border-width-standard: var(--border-width-standard);
+  --border-width-thick: var(--border-width-thick);
+
+  /* Elevation */
+  --shadow-glow: var(--shadow-glow);
+  --shadow-nav: var(--shadow-nav);
+  --blur-card: var(--blur-card);
+  --blur-menu: var(--blur-menu);
+  --blur-nav: var(--blur-nav);
+  --blur-orb: var(--blur-orb);
+
+  /* Motion */
+  --ease-spring: var(--ease-spring);
+  --ease-out: var(--ease-out);
+
+  /* Layers (Z-Index) */
+  --z-background: var(--z-background);
+  --z-base: var(--z-base);
+  --z-overlay: var(--z-overlay);
+  --z-header: var(--z-header);
 }
 
 body {

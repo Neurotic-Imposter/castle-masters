@@ -33,7 +33,9 @@ Each task includes:
 | CM001 | Clean up default Next.js boilerplate and setup minimal UI | ✅ | `app/layout.tsx`, `app/page.tsx` | CM0S1 | Minimal placeholder displayed, defaults removed |
 | CM002 | Configure Google Fonts (Space Grotesk + Inter) | ✅ | `app/layout.tsx` | CM001 | Fonts load correctly; headings use Space Grotesk, body uses Inter |
 | CM003 | Set up global design tokens and CSS variables | ✅ | `app/src/app/globals.css` | CM002 | All brand tokens (`--bg`, `--accent-emerald`, spacing, etc.) defined and matching prototype |
-| CM004 | Configure Tailwind with brand design tokens | 🔲 | `tailwind.config.ts` | CM003 | Custom colors, fonts, spacing tokens registered in Tailwind config |
+| CM004 | Configure Tailwind with brand design tokens | ✅ | `globals.css` | CM003 | Custom colors, fonts, spacing tokens registered in Tailwind config |
+| CM005 | Setup root layout with providers | ✅ | `app/src/components/layout/*.tsx` | CM004 | Created Container, Section, Stack, Grid, Spacer primitives |
+| CM006 | Build reusable Button component | ✅ | `app/src/components/ui/Button.tsx` | CM005 | Button component with all variants, sizes, and states created |
 
 ---
 

@@ -6,6 +6,57 @@ Format: `[Version] — YYYY-MM-DD — Description`
 
 ---
 
+## [0.4.6] — 2026-07-02 — CM006: Build Reusable Button Component
+
+### Added
+- `app/src/components/ui/Button.tsx` — Production-ready Button component with comprehensive variant, size, and state support.
+  - **Variants**: `primary`, `secondary`, `outline`, `ghost`
+  - **Sizes**: `sm`, `md`, `lg`
+  - **States**: `default`, `hover`, `focus`, `disabled`, `loading`
+  - Inline loading spinner (CSS-only, no external dependencies)
+  - Full TypeScript support with exported `ButtonProps` interface
+  - Accessibility: keyboard focus, disabled state, aria-busy for loading
+  - Uses semantic design tokens from CM003/CM004 (no hardcoded colors)
+
+### Changed
+- `docs/TASKS.md` — Marked CM006 as complete.
+- `docs/SESSION.md` — Updated current phase to CM006 completion.
+
+### Status
+- Build verified: `npm run build` passed ✅
+- Linting verified: `npm run lint` passed ✅
+- Dev server verified: `npm run dev` started successfully ✅
+
+---
+
+## [0.4.5] — 2026-07-02 — CM005: Create Layout Primitives
+
+### Added
+- `app/src/components/layout/Container.tsx` — Added semantic width constraints (`default`, `narrow`, `wide`, `full`).
+- `app/src/components/layout/Section.tsx` — Added semantic vertical spacing (`default`, `compact`, `large`).
+- `app/src/components/layout/Stack.tsx` — Added vertical layout helper with strict semantic spacing props.
+- `app/src/components/layout/Grid.tsx` — Added responsive grid layout helper with constrained columns and gap props.
+- `app/src/components/layout/Spacer.tsx` — Added micro-adjustment spacer.
+
+### Changed
+- `docs/TASKS.md` — Marked CM005 as complete and updated description to match the layout primitives scope.
+
+### Status
+- Build successfully verified and TypeScript strict mode passed perfectly.
+
+---
+
+## [0.4.4] — 2026-07-02 — CM004: Configure Application Theme
+
+### Changed
+- `app/src/app/globals.css` — Configured Tailwind v4 `@theme` block to expose existing `:root` variables as semantic utility classes (e.g., `text-emerald`, `bg-bg-card`, `radius-md`).
+- `docs/TASKS.md` — Marked CM004 as complete.
+
+### Status
+- Verified semantic class generation and confirmed clean placeholder UI load.
+
+---
+
 ## [0.4.3] — 2026-07-02 — CM003: Global Design Tokens
 
 ### Added
