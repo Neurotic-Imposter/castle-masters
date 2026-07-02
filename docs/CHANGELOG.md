@@ -6,6 +6,18 @@ Format: `[Version] — YYYY-MM-DD — Description`
 
 ---
 
+## [0.4.2] — 2026-07-02 — CM002: Configure Google Fonts
+
+### Changed
+- `app/layout.tsx` — Replaced default Geist fonts with `Space_Grotesk` and `Inter` via `next/font/google`.
+- `app/layout.tsx` — Added semantic CSS variables `--font-heading` and `--font-sans` to the root `<html>` tag.
+- `docs/TASKS.md` — Marked CM002 as complete.
+
+### Status
+- Build successfully verified.
+
+---
+
 ## [0.4.1] — 2026-07-02 — CM001: Minimal Production Placeholder
 
 ### Changed
