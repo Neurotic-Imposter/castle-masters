@@ -37,6 +37,9 @@ Each task includes:
 | CM005 | Setup root layout with providers | ✅ | `app/src/components/layout/*.tsx` | CM004 | Created Container, Section, Stack, Grid, Spacer primitives |
 | CM006 | Build reusable Button component | ✅ | `app/src/components/ui/Button.tsx` | CM005 | Button component with all variants, sizes, and states created |
 | CM007 | Build reusable Card component | ✅ | `app/src/components/ui/Card.tsx` | CM006 | Card visual container with glass and elevated variants created |
+| CM008 | Build Typography System | ✅ | `app/src/components/ui/Heading.tsx`, `app/src/components/ui/Text.tsx`, `app/src/components/ui/Label.tsx`, `app/src/components/ui/Badge.tsx` | CM007 | Heading, Text, Label, Badge primitives created; all variants verified; build and lint passed |
+| CM009 | Build Logo System | ✅ | `app/src/lib/brand.ts`, `app/src/components/ui/logo/LogoMark.tsx`, `app/src/components/ui/logo/Logo.tsx` | CM008 | BRAND constant, LogoMark and Logo primitives created; graceful fallback for missing assets; build, lint, and dev passed |
+| CM010 | Build Navbar component | ✅ | `app/src/lib/navigation.ts`, `app/src/components/layout/NavLink.tsx`, `app/src/components/layout/MobileMenu.tsx`, `app/src/components/layout/Navbar.tsx` | CM009 | Floating glass pill navbar with desktop links, mobile overlay, active state, scroll lock, reduced motion, Escape key; build and lint passed |
 
 ---
 
@@ -46,7 +49,7 @@ Each task includes:
 |---|---|---|---|---|---|
 | CM005 | Create root layout with providers and global imports | 🔲 | `app/layout.tsx` | CM001–CM004 | Layout renders without errors; fonts and CSS applied globally |
 | CM006 | Build `<AmbientOrbs />` component | 🔲 | `components/layout/AmbientOrbs.tsx` | CM001 | 3 fixed ambient glow orbs render on all pages |
-| CM007 | Build `<Footer />` component | 🔲 | `components/layout/Footer.tsx` | CM001 | 4-column footer renders with brand, links, legal |
+| CM007 | Build `<Footer />` component | ✅ | `app/src/lib/footer.ts`, `app/src/components/layout/Footer.tsx` | CM010 | 4-column footer with brand, links, legal; dynamic year; disabled links with aria-disabled; SOCIAL_LINKS placeholder; preview route created and deleted; build and lint passed |
 | CM008 | Build `<WhatsAppWidget />` component | 🔲 | `components/layout/WhatsAppWidget.tsx` | CM001 | Fixed floating WhatsApp button visible on all pages |
 | CM009 | Verify layout renders correctly with all sub-components | 🔲 | — | CM005–CM008 | Dev server shows layout shell with no hydration errors |
 
@@ -58,8 +61,10 @@ Each task includes:
 |---|---|---|---|---|---|
 | CM010 | Build `<NavPill />` component (desktop) | 🔲 | `components/layout/NavPill.tsx` | CM001 | Floating glass pill with correct nav links renders; active link highlighted via `usePathname()` |
 | CM011 | Build `<MobileMenu />` component | 🔲 | `components/layout/MobileMenu.tsx` | CM010 | Hamburger opens full-screen drawer; all links work; closes on selection |
-| CM012 | Integrate navigation into root layout | 🔲 | `app/layout.tsx` | CM010, CM011 | Navigation present on all pages; no layout shift |
-| CM013 | Responsive nav audit (375px, 768px, 1280px) | 🔲 | — | CM012 | No overflow at any viewport; mobile nav fully functional |
+| CM012 | Integrate navigation into root layout | ✅ | `app/src/app/layout.tsx` | CM010, CM011 | Navbar + Footer integrated in layout.tsx; flex-1 main pushes footer; responsive shell verified at 375/768/1280px; preview route created and deleted; build and lint passed |
+| CM013 | Build Hero section component | ✅ | `app/src/components/sections/Hero.tsx` | CM008, CM012 | Hero section composed from primitives (Container, Grid, Stack, Heading, Text, Button, Badge); badge with pulse; gradient heading; chess board visual; stats row with animated counters; responsive; preview route created and deleted; build and lint passed |
+| CM014 | Build Stats section component | ✅ | `app/src/components/sections/Stats.tsx`, `app/src/app/page.tsx` | CM013 | Stats section matches prototype; uses existing primitives; preview route created and deleted; build and lint passed |
+| CM015 | Build Mission section component | 🔲 | `app/src/components/sections/Mission.tsx`, `app/src/app/page.tsx` | CM014 | Mission section matches prototype; uses existing primitives; preview route created and deleted; build and lint passed |
 
 ---
 

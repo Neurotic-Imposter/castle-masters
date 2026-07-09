@@ -324,5 +324,170 @@ This check is **mandatory** for every component implementation plan.
 
 ---
 
-*Last updated: 2026-07-02*
+### Rule 21 — Type Safety
+
+Avoid `as any` inside production components.
+
+If an unsafe cast is genuinely unavoidable due to React or TypeScript limitations:
+- Explain why with an inline comment.
+- Keep the cast fully isolated inside the component.
+- Never expose `any` through the public API (props, return types, exported interfaces).
+- Prefer overloads, composition, or stronger generic typing whenever practical.
+
+---
+
+### Rule 22 — Primitive Reuse
+
+Before creating any new reusable component, verify that an existing primitive cannot solve the problem.
+
+Always reuse or compose existing primitives first.
+
+**Current primitives:**
+
+Layout: `Container`, `Section`, `Stack`, `Grid`, `Spacer`
+
+UI: `Button`, `Card`, `Heading`, `Text`, `Label`, `Badge`
+
+Never duplicate functionality already provided by these components.
+
+---
+
+### Rule 23 — Component Documentation Block
+
+Every reusable component must begin with a TSDoc block describing:
+
+- **Purpose** — What this component is
+- **Responsibilities** — What it handles
+- **Does NOT own** — What it explicitly excludes
+- **Consumers** — Which future components will use it
+
+Example:
+
+```
+/**
+ * Heading
+ *
+ * Primitive typography component for all heading-level text.
+ *
+ * Responsibilities
+ * - Rendering semantic heading elements (h1–h6)
+ * - Applying visual type scale from the design system
+ * - Gradient fill variant for accent headings
+ *
+ * Does NOT own
+ * - Spacing or layout (use Stack, Section, or margin utilities)
+ * - Positioning
+ * - Color outside the defined token set
+ *
+ * Consumers
+ * - Navbar, Hero, Stats, TournamentCard, ProgramCard, Footer
+ */
+```
+
+---
+
+### Rule 24 — Verification Without Touching page.tsx
+
+Never modify `app/src/app/page.tsx` solely to test a component during development.
+
+Use instead:
+- A temporary preview route (e.g. `app/src/app/cm009-preview/page.tsx`)
+- An isolated playground component
+- A development-only preview page
+
+Delete the temporary verification code after validation is complete.
+
+The production application must remain exactly as it was before the task started.
+
+---
+
+### Rule 25 — Minimal API
+
+Every primitive component must expose the smallest API that covers existing prototype use cases.
+
+Do not add props because they "might be useful later."
+
+Every prop must map to an existing use case documented in the prototype or an approved founder requirement.
+
+---
+
+### Rule 26 — Composition Over Inheritance
+
+Always prefer composition over inheritance.
+
+Never build feature-specific behaviour into primitive components.
+
+Feature components must compose primitives — not extend them.
+
+---
+
+### Rule 27 — Prototype is the Only Visual Reference
+
+`prototype/index.html` is permanently frozen.
+
+It is NEVER modified. It is ONLY referenced.
+
+All layouts, spacing, animations, typography, and interactions must faithfully follow the prototype.
+
+Do not improve, simplify, or reinterpret any design decision. If something looks wrong, flag it — do not silently change it.
+
+---
+
+### Rule 28 — Implementation Plan is Mandatory
+
+Every implementation plan MUST contain all of the following sections. No exceptions.
+
+1. Why this task exists
+2. Scope Assessment
+3. Prototype Mapping
+4. Responsibilities (IS / IS NOT responsible for)
+5. Component Contract
+6. Files to Create
+7. Files to Modify
+8. Files NOT to Modify
+9. Explicitly Out of Scope
+10. Accessibility Strategy
+11. Verification Plan
+12. Definition of Done
+
+A plan missing any section is incomplete and must not proceed to implementation.
+
+---
+
+## Quick Reference (updated)
+
+| # | Rule |
+|---|---|
+| 1 | Prototype is frozen |
+| 2 | Never redesign approved UI |
+| 3 | One CM task per session |
+| 4 | Never scan the entire repository |
+| 5 | Read only required files |
+| 6 | Never modify unrelated files |
+| 7 | Explain affected files first |
+| 8 | Explain implementation plan first |
+| 9 | Implement only the requested task |
+| 10 | Keep components reusable |
+| 11 | Prefer composition over duplication |
+| 12 | Use strict TypeScript |
+| 13 | Backend stays inside Next.js |
+| 14 | Cart, Payments, Chess Puzzles are independent modules |
+| 15 | Never invent business data |
+| 16 | Update TASKS.md, SESSION.md, CHANGELOG.md after every task |
+| 17 | Stop after every completed CM task |
+| 18 | Wait for founder review |
+| 19 | Preserve existing functionality |
+| 20 | Never perform project-wide refactors |
+| 21 | No `as any` in production — isolate, comment, never expose |
+| 22 | Reuse existing primitives before creating new components |
+| 23 | Every component must have a documentation block |
+| 24 | Never touch page.tsx for testing — use preview routes |
+| 25 | Minimal API — every prop needs a prototype use case |
+| 26 | Composition over inheritance — never feature-logic in primitives |
+| 27 | Prototype is the only visual reference — never reinterpret |
+| 28 | Implementation plan is mandatory — all 12 sections required |
+
+---
+
+*Last updated: 2026-07-09*
 *Authority: Founder-approved*

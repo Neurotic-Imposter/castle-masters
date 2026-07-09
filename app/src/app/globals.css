@@ -180,3 +180,9 @@ body {
   line-height: var(--line-height-body);
   -webkit-font-smoothing: antialiased;
 }
+
+/* Badge pulse animation — used by Badge component (CM008) */
+@keyframes badgePulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
+}
