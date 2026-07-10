@@ -10,7 +10,7 @@ import Badge from '@/components/ui/Badge';
 import { TEAM_PAGE_CONTENT, type TeamMember } from '@/lib/content/team';
 
 export const metadata = {
-  title: 'Team — Castle Masters',
+  title: 'Team',
   description:
     'Meet the Castle Masters team — founders, coaches, trainers, advisors, and operations coordinators.',
 };

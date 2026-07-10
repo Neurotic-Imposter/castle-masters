@@ -15,8 +15,12 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Castle Masters",
-  description: "Building stronger positions.",
+  title: {
+    default: "Castle Masters",
+    template: "%s | Castle Masters",
+  },
+  description:
+    "India's complete chess ecosystem — structured coaching, tournaments, corporate programs, and tactical training puzzles.",
 };
 
 export default function RootLayout({

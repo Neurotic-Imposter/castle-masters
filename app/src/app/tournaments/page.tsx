@@ -10,7 +10,7 @@ import Label from '@/components/ui/Label';
 import { TOURNAMENTS_PAGE_CONTENT, type UpcomingTournamentCard, type PastTournamentCard } from '@/lib/content/tournaments';
 
 export const metadata = {
-  title: 'Tournaments & Events — Castle Masters',
+  title: 'Tournaments & Events',
   description:
     'Participate in rated tournaments and community events. View upcoming and past competitions from Castle Masters.',
 };

@@ -10,7 +10,7 @@ import Badge from '@/components/ui/Badge';
 import { CHESS_PUZZLES_PAGE_CONTENT, type PuzzleCard } from '@/lib/content/chess-puzzles';
 
 export const metadata = {
-  title: 'Chess Puzzles — Castle Masters',
+  title: 'Chess Puzzles',
   description:
     'Tactical chess puzzles and training products. Solve mate-in-N challenges and explore the Castle Masters Puzzle Deck.',
 };

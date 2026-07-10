@@ -9,7 +9,7 @@ import ContactForm from '@/components/contact/ContactForm';
 import { CONTACT_PAGE_CONTENT } from '@/lib/content/contact';
 
 export const metadata = {
-  title: 'Contact — Castle Masters',
+  title: 'Contact',
   description:
     'Book a free trial session or inquire about coaching, corporate programs, and school partnerships.',
 };

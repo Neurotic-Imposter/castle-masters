@@ -11,7 +11,7 @@ import Badge from '@/components/ui/Badge';
 import { COACHING_PAGE_CONTENT } from '@/lib/content/coaching';
 
 export const metadata = {
-  title: 'Coaching Programs — Castle Masters',
+  title: 'Coaching Programs',
   description:
     'Structured chess coaching for every level. Online and offline tracks from beginner foundations to tournament preparation.',
 };

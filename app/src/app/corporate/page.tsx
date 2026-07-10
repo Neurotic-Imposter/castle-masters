@@ -10,7 +10,7 @@ import Label from '@/components/ui/Label';
 import { CORPORATE_PAGE_CONTENT, type CorporateProgramCard } from '@/lib/content/corporate';
 
 export const metadata = {
-  title: 'Corporate Programs — Castle Masters',
+  title: 'Corporate Programs',
   description:
     'Chess-based corporate programs for strategic thinking, leadership, and team engagement. Tournaments, workshops, and custom events for your organisation.',
 };

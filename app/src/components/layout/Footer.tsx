@@ -1,32 +1,31 @@
 /**
  * Footer
  *
- * Site footer — presentational component rendering footer columns,
- * brand description, copyright, and legal tagline.
+ * Site footer — brand description, 3 navigation columns, social links, legal bar.
  *
  * Responsibilities
- * - Composing Container, Grid, Stack, Logo, Text, Label primitives
+ * - Composing Container, Stack, Logo, Text, Label primitives
  * - Rendering FOOTER_COLUMNS, FOOTER, SOCIAL_LINKS from footer.ts
- * - Dynamic copyright year via new Date().getFullYear()
- * - Rendering disabled links with aria-disabled, no focus, no click
+ * - Dynamic copyright year
+ * - Disabled links: aria-disabled, no pointer events, reduced opacity
+ * - Social links: SVG icons, target="_blank", rel="noopener noreferrer"
  *
  * Not Responsible For
- * - Routing logic (consumer wraps links)
+ * - Routing logic
  * - Business logic or data fetching
  * - Authentication or user state
- * - Social link rendering (SOCIAL_LINKS exported but not rendered)
  *
  * Primary Consumers
- * - app/src/app/layout.tsx (CM012 — layout integration)
+ * - app/src/app/layout.tsx
  */
 
 import Link from 'next/link';
 import { Container } from './Container';
-import { Grid } from './Grid';
 import { Stack } from './Stack';
 import Logo from '@/components/ui/logo/Logo';
 import Text from '@/components/ui/Text';
 import Label from '@/components/ui/Label';
+import { SocialIcon } from '@/components/ui/icons/SocialIcons';
 import {
   FOOTER_COLUMNS,
   FOOTER,
@@ -44,7 +43,8 @@ const Footer = () => {
     <footer className="w-full border-t border-border bg-background/50" role="contentinfo">
       <Container size="wide">
         {/* ── Main Footer Grid ───────────────────────────────────────────── */}
-        <Grid columns={4} gap="lg" className="py-16 md:py-24">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 py-16 md:py-24">
+
           {/* Brand Column */}
           <Stack spacing="md" className="max-w-xs">
             <Link href="/" aria-label="Castle Masters — Home">
@@ -63,65 +63,59 @@ const Footer = () => {
               </Label>
               <Stack spacing="sm">
                 {column.links.map((link) => (
-                  <FooterLink key={link.href} link={link} />
+                  <FooterNavLink key={link.href} link={link} />
                 ))}
               </Stack>
             </Stack>
           ))}
-        </Grid>
+        </div>
 
         {/* ── Bottom Bar ─────────────────────────────────────────────────── */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-t border-border py-6">
           <Text size="sm" color="muted" className="text-center md:text-left">
             {copyrightText}
           </Text>
+
+          {/* Social Links */}
+          <div className="flex items-center justify-center gap-4" aria-label="Follow Castle Masters on social media">
+            {SOCIAL_LINKS.map((social) => (
+              <Link
+                key={social.platform}
+                href={social.href}
+                aria-label={social.label}
+                className="text-text-muted hover:text-cyan transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <SocialIcon platform={social.platform} className="w-5 h-5" title={social.label} />
+              </Link>
+            ))}
+          </div>
+
           <Text size="sm" color="muted" className="text-center md:text-right">
             {FOOTER.legalTagline}
           </Text>
-
-          {/* Social Links Placeholder — not rendered until SOCIAL_LINKS populated */}
-          {SOCIAL_LINKS.length > 0 && (
-            <div className="flex items-center gap-4" aria-label="Social links">
-              {SOCIAL_LINKS.map((social) => (
-                <Link
-                  key={social.platform}
-                  href={social.href}
-                  aria-label={social.label}
-                  className="text-text-muted hover:text-cyan transition-colors text-xl leading-none"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span aria-hidden="true">{social.icon}</span>
-                </Link>
-              ))}
-            </div>
-          )}
         </div>
       </Container>
     </footer>
   );
 };
 
-// ─── FooterLink Subcomponent ────────────────────────────────────────────────
+// ─── FooterNavLink ────────────────────────────────────────────────────────────
 
-interface FooterLinkProps {
+interface FooterNavLinkProps {
   link: FooterLink;
 }
 
-const FooterLink = ({ link }: FooterLinkProps) => {
+const FooterNavLink = ({ link }: FooterNavLinkProps) => {
   const isDisabled = link.disabled === true;
-
   return (
     <Link
       href={link.href}
       aria-disabled={isDisabled}
       tabIndex={isDisabled ? -1 : undefined}
       className={`
-        inline-flex
-        text-sm
-        text-text-muted
-        hover:text-cyan
-        transition-colors
+        inline-flex text-sm text-text-muted hover:text-cyan transition-colors
         ${isDisabled ? 'pointer-events-none opacity-40 select-none cursor-default' : ''}
       `}
     >
