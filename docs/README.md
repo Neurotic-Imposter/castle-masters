@@ -2,7 +2,9 @@
 
 > India's Complete Chess Ecosystem
 
-**Castle Masters** is a premium chess platform providing coaching, tournaments, corporate programs, school outreach, tactical chess puzzles, and a merchandise cart — serving players from beginner to advanced across India.
+**Castle Masters** is a premium chess platform providing coaching, tournaments, corporate programs, tactical chess puzzles (with a physical Puzzle Deck commerce flow), and school outreach — serving players from beginner to advanced across India.
+
+> **Merchandise is not a standalone feature.** The first commerce flow is the Chess Puzzle Deck sold from the Chess Puzzles page.
 
 ---
 
@@ -38,6 +40,9 @@ castle-masters/
 ### Development
 
 ```bash
+# Enter the production app
+cd app
+
 # Install dependencies
 npm install
 
@@ -72,13 +77,13 @@ start prototype/index.html
 
 ```bash
 # Create a feature branch per task
-git checkout -b feat/CM001-branding
+git checkout -b feat/CM015-mission-section
 
 # Commit with task ID
-git commit -m "feat(CM001): set up global design tokens and typography"
+git commit -m "feat(CM015): build mission section"
 
 # Push and open PR
-git push origin feat/CM001-branding
+git push origin feat/CM015-mission-section
 ```
 
 **Branch naming:** `feat/CM###-short-description`
@@ -88,8 +93,8 @@ git push origin feat/CM001-branding
 
 ## Deployment
 
-- **Platform**: Vercel
-- **GitHub Repository**: Connected (automatic deploy on push to `main`)
+- **Platform**: Vercel (planned deployment target)
+- **GitHub Repository**: Source control; production deployment setup is tracked in later CM tasks
 - **Domain**: TBD by founder
 
 ---
@@ -113,9 +118,23 @@ git push origin feat/CM001-branding
 
 ## Current Phase
 
-**Documentation Synchronization** — Complete
+**Phase 4 — Inner Pages**
 
-**Next Milestone**: CM001 — Branding (global design tokens, typography, CSS variables)
+**Completed work**: CM001–CM023
+
+Implemented production pieces:
+
+- **Foundation**
+  - Design tokens, fonts, Tailwind theme setup
+  - Layout primitives: Container, Section, Stack, Grid, Spacer
+  - UI primitives: Button, Card, Heading, Text, Label, Badge
+  - Logo system and brand constants
+- **Application Shell**
+  - Navbar, MobileMenu, Footer, and root application shell
+- **Homepage** ✅ **100% Complete**
+  - Hero, Stats, Mission, Coaching Overview, Chess Puzzles Preview, Upcoming Tournament, Corporate Overview, Team Preview, Testimonials, FAQ, CTA
+
+**Next Milestone**: CM024 — Coaching page
 
 For detailed task status, see [TASKS.md](TASKS.md).
 For internal development questions, refer to [SESSION.md](SESSION.md) and [DECISIONS.md](DECISIONS.md).

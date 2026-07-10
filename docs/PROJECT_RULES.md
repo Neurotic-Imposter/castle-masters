@@ -115,7 +115,7 @@ Build small, composable primitives. Assemble them into larger sections. Never du
 
 ### Rule 13 — Backend Remains Inside Next.js
 
-All backend logic is implemented as Next.js App Router API Routes inside `app/api/`.
+All backend logic is implemented as Next.js App Router API Routes inside `app/src/app/api/`.
 
 Do not introduce a separate server (Express, Fastify, NestJS, etc.). Do not use serverless functions on external platforms. Everything runs inside Next.js on Vercel.
 
@@ -380,7 +380,7 @@ Example:
  * - Color outside the defined token set
  *
  * Consumers
- * - Navbar, Hero, Stats, TournamentCard, ProgramCard, Footer
+ * - Navbar, Hero Section, Stats Section, TournamentCard, ProgramCard, Footer
  */
 ```
 

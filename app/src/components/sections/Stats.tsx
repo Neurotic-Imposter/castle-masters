@@ -7,6 +7,7 @@ import { Stack } from '@/components/layout/Stack';
 import Card from '@/components/ui/Card';
 import Heading from '@/components/ui/Heading';
 import Text from '@/components/ui/Text';
+import { STATS_CONTENT } from '@/lib/home';
 
 /**
  * Stats
@@ -20,7 +21,8 @@ import Text from '@/components/ui/Text';
  * - Respecting prefers-reduced-motion by rendering final values immediately
  *
  * Does NOT own
- * - Hero content or chess-board visual
+ * - Hero content, CTAs, or chess-board visual
+ * - Mission or any later homepage sections
  * - Business data fetching
  * - Global scroll-reveal primitives
  * - Homepage section ordering beyond its own section markup
@@ -29,22 +31,12 @@ import Text from '@/components/ui/Text';
  * - app/src/app/page.tsx
  */
 
-interface Stat {
+interface StatCardProps {
   label: string;
   value: number;
-}
-
-interface StatCardProps extends Stat {
   shouldAnimate: boolean;
   prefersReducedMotion: boolean;
 }
-
-const STATS: readonly Stat[] = [
-  { label: 'Tournaments Hosted', value: 15 },
-  { label: 'Expert Coaches', value: 25 },
-  { label: 'Active Students', value: 200 },
-  { label: 'School Partners', value: 12 },
-] as const;
 
 const animationDuration = 1200;
 
@@ -160,7 +152,7 @@ export const Stats = () => {
     <section ref={sectionRef} className="relative z-base -mt-12 mb-20">
       <Container>
         <Grid columns={4} gap="md" className="max-[1024px]:grid-cols-2 max-[1024px]:mt-20 max-[480px]:grid-cols-1">
-          {STATS.map((stat) => (
+          {STATS_CONTENT.map((stat) => (
             <StatCard
               key={stat.label}
               label={stat.label}

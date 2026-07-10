@@ -57,7 +57,7 @@ export const FOOTER_COLUMNS: readonly FooterColumn[] = [
       { label: 'Coaching', href: '/coaching' },
       { label: 'Tournaments & Events', href: '/tournaments' },
       { label: 'Chess Puzzles', href: '/chess-puzzles' },
-      { label: 'Corporate', href: '/corporate', disabled: true },
+      { label: 'Corporate', href: '/corporate' },
     ],
   },
   {

@@ -18,7 +18,6 @@
  *
  * Primary Consumers
  * - app/src/app/layout.tsx (CM012 — layout integration)
- * - app/src/app/cm011-preview/page.tsx (CM011 — preview verification)
  */
 
 import Link from 'next/link';

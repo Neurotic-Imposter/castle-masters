@@ -52,7 +52,7 @@
 ### Forms
 
 - Phase 1–7: Mock submit (no backend)
-- Phase 8+: Next.js API Routes inside `app/api/`
+- Phase 8+: Next.js API Routes inside `app/src/app/api/`
 
 ---
 
@@ -87,7 +87,7 @@ The backend will live **inside Next.js** using App Router API Routes. No separat
 ### Module Structure
 
 ```
-app/
+app/src/app/
 ├── api/
 │   ├── tournaments/
 │   │   └── route.ts         ← GET /api/tournaments

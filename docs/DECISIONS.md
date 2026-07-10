@@ -117,11 +117,11 @@
 
 ## DEC-012 — Tournament Tabs Simplified
 
-**Date**: 2026-07-02
+**Date**: 2026-07-02 *(revised 2026-07-10)*
 **Category**: Product
-**Decision**: The Tournaments page tabs are reduced to: Upcoming, Past Tournaments, School Events, Special Events. Removed: Registrations portal, Results table, Leaderboard.
-**Rationale**: The removed tabs required backend infrastructure (registration system, results data) not yet built. Simplified tabs can be built and released immediately.
-**Alternatives Considered**: Building all 7 original tabs — rejected as premature without backend.
+**Decision**: The Tournaments page contains exactly two tabs: **Upcoming** and **Past Tournaments**. All other tabs (School Events, Special Events, Registrations portal, Results table, Leaderboard) are permanently removed.
+**Rationale**: The 2026-07-10 founder decision further simplified from an earlier draft that had School Events and Special Events tabs. Only Upcoming and Past are approved. Registration links to Google Forms. Past tournament results are displayed inline on the card — no separate Results page.
+**Alternatives Considered**: Separate Results page, Registrations portal, Leaderboard — all rejected by founder.
 
 ---
 
@@ -182,3 +182,36 @@
 **Decision**: Features are implemented one task at a time, in phase order. Each task is reviewed before the next begins, unless the founder explicitly instructs otherwise.
 **Rationale**: Incremental delivery reduces risk, enables early feedback, and avoids large untested batches of code. Each completed task is a working, reviewable deliverable.
 **Alternatives Considered**: Building all pages at once — rejected as unreviewed and high-risk.
+
+---
+
+## DEC-019 — Homepage Content Centralization
+
+**Date**: 2026-07-10
+**Category**: Architecture
+**Decision**: All homepage presentation content (copy, stats, configuration, future homepage section content) lives in `app/src/lib/home.ts`.
+**Rationale**: Keep section components presentation-only and avoid duplicated strings/configuration.
+**Alternatives Considered**: Keeping content inside each section component — rejected because it duplicates presentation data.
+
+---
+
+## DEC-020 — Homepage Section Pattern
+
+**Date**: 2026-07-10
+**Category**: Architecture
+**Decision**: Homepage implementation follows a strict separation of concerns.
+- Content lives in `app/src/lib/home.ts`
+- Presentation lives in `app/src/components/sections/`
+- Composition happens in `app/src/app/page.tsx`
+**Rationale**: Keeps section components presentation-only, prevents duplicated content, and scales consistently as additional homepage sections are added.
+**Alternatives Considered**: Keeping content inside each section component — rejected because it duplicates presentation data.
+
+---
+
+## DEC-021 — Page Content Convention (`lib/content/`)
+
+**Date**: 2026-07-10
+**Category**: Architecture
+**Decision**: All inner-page content modules live under `app/src/lib/content/`, one file per page. The four existing root-level shared modules (`home.ts`, `brand.ts`, `navigation.ts`, `footer.ts`) are not migrated.
+**Rationale**: Inner pages have page-scoped content that doesn't belong alongside shared global modules. A dedicated `content/` directory creates a clear separation: shared modules at `lib/` root, page-scoped modules under `lib/content/`.
+**Alternatives Considered**: Keeping all content at `lib/` root — rejected because it mixes global shared modules with page-specific content, making the directory harder to navigate as pages multiply.

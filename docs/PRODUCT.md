@@ -2,7 +2,9 @@
 
 ## Product Vision
 
-Castle Masters is India's complete chess ecosystem — a premium digital platform serving students, parents, corporations, and chess enthusiasts with structured coaching, competitive tournaments, tactical chess puzzles, a merchandise cart, and corporate programs.
+Castle Masters is India's complete chess ecosystem — a premium digital platform serving students, parents, corporations, and chess enthusiasts with structured coaching, competitive tournaments, tactical chess puzzles (including a physical Puzzle Deck product), and corporate programs.
+
+> **Merchandise is not a standalone nav feature.** The first production commerce flow is the Chess Puzzle Deck sold via the Chess Puzzles page.
 
 ---
 
@@ -15,18 +17,16 @@ The approved top-level navigation contains **7 pages** plus a primary CTA:
 | 1 | `/` | Home | Primary storytelling and discovery hub |
 | 2 | `/coaching` | Coaching | Online and offline training tracks |
 | 3 | `/tournaments` | Tournaments & Events | Upcoming and past competition hub |
-| 4 | `/chess-puzzles` | Chess Puzzles | Tactical training puzzle module |
+| 4 | `/chess-puzzles` | Chess Puzzles | Tactical training + Puzzle Deck product |
 | 5 | `/corporate` | Corporate | Enterprise chess programs |
 | 6 | `/team` | Team | Coaching and operations directory |
 | 7 | `/contact` | Contact | Inquiry form, locations, and support |
 | — | — | Book Free Trial | Primary CTA — links to Contact |
 
 **Removed from navigation (permanently — do not recreate):**
-- Games *(renamed to Chess Puzzles)*
-- Merchandise *(not a nav page — exists only through the cart flow)*
+- Games *(renamed to Chess Puzzles — permanent)*
+- Merchandise *(not a nav page — commerce accessed via Chess Puzzles page)*
 - About, Academy, Programs, Pricing, Locations, Success Stories
-
-> **Merchandise note**: Products, cart, checkout, and payment are accessed via CTAs embedded across the site. There is no standalone Merchandise navigation item.
 
 ---
 
@@ -36,20 +36,20 @@ The approved top-level navigation contains **7 pages** plus a primary CTA:
 
 ### 1. Home
 
-Structured in strict section order:
+Structured in strict section order — **fully implemented (CM013–CM023)**:
 
-1. **Hero** — H1 headline, subtext, CTA buttons (Book Free Trial + Explore Coaching), decorative chess board visual
-2. **Statistics** — Animated counters for key platform metrics
-3. **Our Mission** — Centered brand statement block
-4. **Coaching Overview** — 2-card grid (Online + Offline) linking to Coaching page
-5. **Chess Puzzles Preview** — 2 cards (Mate in 1, Mate in 4) with Play Demo CTA
-6. **Upcoming Tournament** — Featured event card with Register Now CTA
-7. **Corporate Overview** — 2-card grid of corporate program highlights
-8. **Team Preview** — Summary card linking to Team page
-9. **Testimonials** — 3 placeholder testimonial cards
-10. **FAQ** — Collapsible accordion, minimum 4 questions
-11. **Book Free Trial Banner** — Full-width CTA section
-12. **Footer** — Brand, quick links, legal
+1. **Hero Section** ✅
+2. **Stats Section** ✅
+3. **Mission Section** ✅
+4. **Coaching Section** ✅
+5. **Chess Puzzles Section** ✅
+6. **Upcoming Tournament Section** ✅
+7. **Corporate Section** ✅
+8. **Team Section** ✅
+9. **Testimonials Section** ✅
+10. **FAQ Section** ✅
+11. **CTA Section** ✅
+12. **Footer** ✅
 
 ---
 
@@ -66,37 +66,39 @@ Structured in strict section order:
 
 ### 3. Tournaments & Events
 
-**4-tab navigation** (simplified from previous 7-tab spec):
+**Two tabs only:**
 
 | Tab | Content |
 |---|---|
 | Upcoming | Tournament cards |
-| Past Tournaments | Archive cards |
-| School Events | School outreach and inter-school leagues |
-| Special Events | Masterclasses and specialty events |
+| Past Tournaments | Archive cards with results |
 
 **Removed tabs (do not recreate without explicit founder approval):**
+- School Events
+- Special Events
 - Registrations portal
-- Results table
+- Results table (separate page)
 - Leaderboard
 
 #### Upcoming Tournament Card — Required Fields
 
-Each upcoming tournament card must display:
 - Date
 - Venue
 - Entry Fee
 - Prize Pool
 - Description
-- Register Now CTA
+- Register Now CTA → Google Forms link (placeholder)
+
+> Registration links to Google Forms — no in-app registration system.
 
 #### Past Tournament Card — Required Fields
 
-Each past tournament card must display:
-- Winner
-- Runner-up
-- Standings
-- View Results CTA
+- Winner (placeholder)
+- Runner-up (placeholder)
+- Standings (placeholder)
+- Results embedded in card
+
+> Past tournament results are contained within the card — no separate Results page.
 
 All tournament data is **placeholder only**. Do not invent dates, venues, winners, fees, or prize amounts.
 
@@ -104,14 +106,13 @@ All tournament data is **placeholder only**. Do not invent dates, venues, winner
 
 ### 4. Chess Puzzles
 
-*(This module was previously documented as "Games" — the name is now Chess Puzzles throughout.)*
+*(This page was previously called "Games" — it is permanently renamed Chess Puzzles throughout.)*
 
-**Module characteristics:**
-- Independent module — not coupled to payments or cart
-- Free demo puzzles require no account or payment
-- Future premium puzzle packs are a planned monetization layer (not yet implemented)
-- No chess engine — all puzzle interaction is placeholder (informational alerts only)
-- Never implement gameplay
+#### Responsibility A — Interactive Puzzle Demo
+
+- Free demo puzzles — no login or payment required
+- No chess engine — placeholder interaction (informational alerts only)
+- Never implement gameplay logic
 
 **Available Now:**
 - Mate in 1 Challenges — card with description, preview, "Play Demo" button
@@ -122,7 +123,19 @@ All tournament data is **placeholder only**. Do not invent dates, venues, winner
 - Mate in 3 Campaigns
 - Tactical Training Cards
 
-Each card must have: title, description, visual preview, action button.
+#### Responsibility B — Puzzle Deck Product (First Commerce Flow)
+
+The academy sells **physical Chess Puzzle Decks**.
+
+Users can:
+1. View product
+2. Add to Cart
+3. Checkout
+4. Pay (Razorpay)
+
+This is the **first production commerce flow** for the platform.
+
+> The Puzzle Deck product card lives on the Chess Puzzles page — not a separate Merchandise page.
 
 ---
 
@@ -158,16 +171,12 @@ Each card must have: title, description, visual preview, action button.
 
 ---
 
-## Cart & Merchandise Flow
+## Commerce Flow
 
-Merchandise is **not a navigation page**. Products are accessible via CTAs embedded across the site (e.g., homepage, chess puzzles page, corporate page).
-
-The complete purchase journey:
+Commerce is initiated from the Chess Puzzles page (Puzzle Deck product), not a standalone Merchandise navigation item.
 
 ```
-Product CTA (anywhere on site)
-        ↓
-    Products
+Puzzle Deck "Add to Cart" (Chess Puzzles page)
         ↓
       Cart
         ↓
@@ -180,15 +189,13 @@ Product CTA (anywhere on site)
   Order Saved (Supabase)
 ```
 
-**Product categories:** Training Cards, Chess Boards, Books/Manuals, Chess Clocks, Apparel
-
-**Current state:** All products marked Coming Soon until Razorpay integration is complete (Phase 10).
+**Current state:** Commerce UI shows placeholder/Coming Soon until Razorpay integration is complete (Phase 9).
 
 ---
 
 ## Backend Architecture
 
-The backend lives **inside the Next.js 16 application** using App Router API Routes. No separate server.
+The backend lives **inside the Next.js 16 application** using App Router API Routes under `app/src/app/api/`. No separate server.
 
 ### API Routes
 
@@ -196,13 +203,12 @@ The backend lives **inside the Next.js 16 application** using App Router API Rou
 |---|---|---|
 | `GET` | `/api/tournaments` | Fetch tournament list |
 | `GET` | `/api/puzzles` | Fetch puzzle catalog |
+| `GET` | `/api/products` | Fetch Puzzle Deck product data |
 | `POST` | `/api/cart` | Add / update cart items |
 | `POST` | `/api/checkout` | Initiate checkout session |
 | `POST` | `/api/payment/verify` | Verify Razorpay payment signature |
 
 ### Module-First Architecture
-
-Each feature domain is a self-contained module:
 
 ```
 modules/
@@ -219,6 +225,7 @@ modules/
 |---|---|
 | Next.js 16 (App Router) | Frontend + API Routes |
 | Supabase | Database (products, orders, puzzles, tournaments) |
+| Supabase Auth | Authentication |
 | Razorpay | Indian payment gateway |
 | Vercel | Hosting and deployment |
 | GitHub | Source control (connected to Vercel) |
@@ -233,9 +240,26 @@ modules/
 | Language | TypeScript (strict) |
 | Styling | Tailwind CSS + CSS custom properties |
 | Dev Server | Turbopack |
-| Database | Supabase (Phase 9+) |
-| Payments | Razorpay (Phase 10+) |
+| Database | Supabase (Phase 6+) |
+| Auth | Supabase Auth (Phase 7+) |
+| Payments | Razorpay (Phase 9+) |
 | Hosting | Vercel |
+
+---
+
+## Development Priority Order
+
+1. Complete website (all pages) — Phase 4
+2. Backend foundation (API routes, mock data) — Phase 5
+3. Database (Supabase) — Phase 6
+4. Authentication — Phase 7
+5. Cart & Checkout — Phase 8
+6. Payment (Razorpay) — Phase 9
+7. Admin Dashboard — Phase 10
+8. Deployment — Phase 11
+9. QA — Phase 12
+
+> Payment is part of a complete website delivery — not an isolated early milestone.
 
 ---
 
@@ -251,7 +275,7 @@ The following must **never** be invented:
 - Email addresses
 - Pricing of any kind
 
-All placeholder text must read professionally. Acknowledge placeholder status clearly where needed.
+All placeholder text must read professionally.
 
 ---
 
@@ -263,5 +287,13 @@ All placeholder text must read professionally. Acknowledge placeholder status cl
 - **Ambient accent**: Violet `#8B5CF6`
 - **Background**: `#030303` (near-black)
 - **Typography**: Space Grotesk (headings), Inter (body)
-- **Motion**: Smooth cubic-bezier transitions, scroll reveal, hover lifts, GPU-only animations (`transform`, `opacity`, `filter`)
-- **Chess board**: Signature hero element with 3D tilt, tactical highlights, floating pieces — never a playable game
+- **Motion**: Smooth cubic-bezier transitions, scroll reveal, hover lifts, GPU-only animations
+
+---
+
+## Logo
+
+The official Castle Masters logo is pending asset delivery from the founder.
+
+> Do not attempt to replace the current temporary logo placeholder until the official asset is provided.
+> Existing Logo and LogoMark components already have fallback handling ready.

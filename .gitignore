@@ -1,0 +1,8 @@
+# Local tooling and editor output
+dev-output.txt
+dev-error.txt
+opencode.json
+
+# Preview and temporary verification artifacts
+*-preview/
+

@@ -10,7 +10,9 @@
 
 You are working on **Castle Masters** — India's complete chess ecosystem.
 
-Castle Masters is a premium chess platform serving students, parents, corporations, and chess enthusiasts. It provides structured coaching, tournaments, tactical chess puzzles, merchandise, and corporate programs.
+Castle Masters is a premium chess platform serving students, parents, corporations, and chess enthusiasts. It provides structured coaching, tournaments, tactical chess puzzles (with a physical Puzzle Deck product), and corporate programs.
+
+> **Merchandise is not a standalone feature.** The first commerce flow is the Chess Puzzle Deck sold through the Chess Puzzles page.
 
 ---
 
@@ -37,10 +39,11 @@ The production application lives in `app/`. All new code goes there.
 - **Fonts**: Google Fonts via `next/font/google`
 - **Animations**: Pure CSS keyframes + JS `IntersectionObserver`
 - **Dev Server**: Turbopack
-- **Backend**: Next.js API Routes (`app/api/`)
-- **Database**: Supabase (Phase 9+)
-- **Payments**: Razorpay (Phase 10+)
-- **Deployment**: Vercel
+- **Backend**: Next.js API Routes (`app/src/app/api/`, Phase 5)
+- **Database**: Supabase (Phase 6+)
+- **Auth**: Supabase Auth (Phase 7+)
+- **Payments**: Razorpay (Phase 9+)
+- **Deployment**: Vercel (Phase 11+)
 
 ---
 
@@ -54,7 +57,9 @@ The production application lives in `app/`. All new code goes there.
 6. **GPU animations only.** Only animate `transform`, `opacity`, and `filter`.
 7. **No chess engine.** The chess board is a visual element only — never implement gameplay.
 8. **Strict TypeScript.** No `any` types. All props must be typed. Interfaces over inline types.
-9. **No ecommerce until Phase 10.** Cart and payment flow is built incrementally.
+9. **No commerce until Phase 8–9.** Cart and payment flow is built incrementally after all pages are complete.
+10. **Always use "Chess Puzzles".** Never "Games". This is a permanent rename.
+11. **Logo placeholder active.** Official logo asset not yet delivered. Do not attempt logo replacement until asset is provided.
 
 ---
 
@@ -109,31 +114,80 @@ The production application lives in `app/`. All new code goes there.
 
 | Route | Page | Notes |
 |---|---|---|
-| `/` | Home | Full storytelling hub |
+| `/` | Home | Full storytelling hub — **100% complete** |
 | `/coaching` | Coaching | Online + offline programs |
-| `/tournaments` | Tournaments & Events | Upcoming + Past tabs |
-| `/chess-puzzles` | Chess Puzzles | Renamed from "Games" |
+| `/tournaments` | Tournaments & Events | Upcoming + Past tabs only |
+| `/chess-puzzles` | Chess Puzzles | Demo puzzles + Puzzle Deck product |
 | `/corporate` | Corporate | B2B programs + inquiry |
 | `/team` | Team | Placeholder cards only |
 | `/contact` | Contact | Inquiry form + locations |
 
-> Merchandise is **not** a nav page. It is accessed via cart flow CTAs.
+> **Merchandise is not a nav page.** Commerce is initiated from the Chess Puzzles page (Puzzle Deck).
+
+> **Tournament tabs**: Upcoming and Past only. School Events and Special Events tabs have been removed per founder decision.
+
+---
+
+## Homepage Section Order
+
+The homepage is **fully implemented** (CM013–CM023):
+
+1. Hero Section ✅
+2. Stats Section ✅
+3. Mission Section ✅
+4. Coaching Overview Section ✅
+5. Chess Puzzles Preview Section ✅
+6. Upcoming Tournament Section ✅
+7. Corporate Overview Section ✅
+8. Team Preview Section ✅
+9. Testimonials Section ✅
+10. FAQ Section ✅
+11. CTA Section ✅
+12. Footer ✅
+
+**Next task**: CM024 — Coaching page
+
+---
+
+## Development Phase Order
+
+1. **Phase 4** — Inner pages (Coaching, Tournaments, Chess Puzzles, Corporate, Team, Contact)
+2. **Phase 5** — Backend API routes (static mock data)
+3. **Phase 6** — Database (Supabase)
+4. **Phase 7** — Authentication
+5. **Phase 8** — Cart & Checkout
+6. **Phase 9** — Razorpay Payments
+7. **Phase 10** — Admin Dashboard
+8. **Phase 11** — Production Deployment
+9. **Phase 12** — Quality Assurance
 
 ---
 
 ## Cart Flow
 
 ```
-Products → Cart → Checkout → Razorpay → Success → Order Saved (Supabase)
+Puzzle Deck "Add to Cart" (Chess Puzzles page)
+        ↓
+      Cart
+        ↓
+    Checkout
+        ↓
+    Razorpay
+        ↓
+    Success
+        ↓
+  Order Saved (Supabase)
 ```
 
 ---
 
 ## Current Phase
 
-**Documentation Synchronized** — Complete
+**Phase 4 — Inner Pages**
 
-**Next Task**: CM001 — Set up global design tokens and CSS variables
+**Completed work**: CM001–CM023 (Homepage 100% complete)
+
+**Next Task**: CM024 — Coaching page
 
 See [TASKS.md](TASKS.md) for the full implementation roadmap.
 

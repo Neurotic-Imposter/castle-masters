@@ -2,7 +2,9 @@
 
 ## Overview
 
-Castle Masters is a **full-stack web application** built on Next.js 16 (App Router). The production system serves a premium chess platform with marketing pages, a chess puzzle module, tournament information, a merchandise cart with payment processing, and corporate inquiry features.
+Castle Masters is a **Next.js 16 App Router application**. The current production implementation contains the shared design system, application shell, and a fully implemented homepage (11 sections). The planned full product includes inner marketing pages, a chess puzzle module with a physical Puzzle Deck product (first commerce flow), tournament information, and corporate inquiry features.
+
+> **Merchandise is not a standalone feature.** The first commerce flow is the Chess Puzzle Deck sold via the Chess Puzzles page.
 
 The architecture is **module-first** and **incremental**: each feature module (puzzles, tournaments, cart, payments) is developed and deployed independently without breaking existing pages.
 
@@ -21,44 +23,22 @@ castle-masters/
 ├── prototype/              ← FROZEN. Visual source of truth. Never modify.
 │   └── index.html          ← Single-file HTML+CSS+JS prototype
 │
-├── app/                    ← Next.js 16 App Router (production)
-│   ├── layout.tsx          ← Root layout: Nav, Footer, Providers
-│   ├── page.tsx            ← Home page
-│   ├── coaching/
-│   ├── tournaments/
-│   ├── chess-puzzles/      ← (formerly "Games" — renamed)
-│   ├── corporate/
-│   ├── team/
-│   ├── contact/
-│   └── api/                ← Next.js API Routes (backend)
-│       ├── tournaments/
-│       ├── puzzles/
-│       ├── cart/
-│       ├── checkout/
-│       └── payment/
-│           └── verify/
+├── app/                    ← Next.js 16 App Router production app
+│   ├── src/
+│   │   ├── app/            ← Root layout, homepage, global CSS
+│   │   ├── components/     ← Shared React components
+│   │   │   ├── ui/         ← Existing UI primitives
+│   │   │   ├── layout/     ← Existing layout shell components
+│   │   │   └── sections/   ← Homepage/page sections
+│   │   └── lib/            ← Existing brand, navigation, footer, homepage data
+│   └── public/             ← Static assets served by Next.js
 │
-├── components/             ← Shared React components
-│   ├── ui/                 ← Base UI primitives
-│   ├── layout/             ← Nav, Footer, MobileMenu
-│   ├── sections/           ← Reusable page sections
-│   └── chess/              ← Chess board visual component
-│
-├── modules/                ← Feature domain modules
-│   ├── puzzles/            ← Chess puzzle logic and types
-│   ├── tournaments/        ← Tournament data and management
-│   ├── cart/               ← Cart state and operations
-│   ├── payments/           ← Razorpay integration
-│   └── shared/             ← Shared types and helpers
-│
-├── lib/                    ← Infrastructure utilities
-│   ├── supabase/           ← Supabase client + queries
-│   ├── razorpay/           ← Razorpay client + helpers
-│   └── utils/              ← General utilities
-│
-├── styles/                 ← Global CSS and design tokens
-│   ├── globals.css         ← CSS variables + reset
-│   └── animations.css      ← Keyframe animation library
+├── modules/                ← Planned feature domain modules
+│   ├── puzzles/            ← Planned chess puzzle logic and types
+│   ├── tournaments/        ← Planned tournament data and management
+│   ├── cart/               ← Planned cart state and operations
+│   ├── payments/           ← Planned Razorpay integration
+│   └── shared/             ← Planned shared types and helpers
 │
 ├── public/                 ← Static assets served at root
 ├── assets/                 ← Design system assets, brand kit
@@ -73,64 +53,83 @@ castle-masters/
 
 | Route | Page | Notes |
 |---|---|---|
-| `/` | Home | Full storytelling hub |
-| `/coaching` | Coaching | Online & offline programs |
-| `/tournaments` | Tournaments & Events | Upcoming + Past tabs |
-| `/chess-puzzles` | Chess Puzzles | (renamed from "Games") |
+| `/` | Home | Full storytelling hub — **✅ Complete** |
+| `/coaching` | Coaching | Online & offline programs — **✅ Complete** |
+| `/tournaments` | Tournaments & Events | **Two tabs only**: Upcoming + Past |
+| `/chess-puzzles` | Chess Puzzles | Demo puzzles + Puzzle Deck product |
 | `/corporate` | Corporate | B2B programs + inquiry form |
 | `/team` | Team | Placeholder cards |
 | `/contact` | Contact | Inquiry form + locations |
 
-> **Note:** Merchandise has been removed from navigation per founder decision. Cart flow is handled via a dedicated cart UI, not a nav page.
+> **Note:** Merchandise is not a nav page. Commerce is accessed via the Chess Puzzles page (Puzzle Deck product).
+> **Tournament tabs:** Upcoming and Past only — School Events, Special Events, Leaderboard, and Registrations portal removed per founder decision.
+
+### Content Sources
+
+Presentation content is centralized in typed modules under `app/src/lib/`. No section component duplicates copy or configuration strings inline.
+
+**Shared modules (`app/src/lib/` root):**
+- `brand.ts` — Brand identity (name, tagline, asset paths)
+- `navigation.ts` — Primary navigation data (nav links, CTA)
+- `footer.ts` — Footer data (columns, legal, social placeholders)
+- `home.ts` — Single source of truth for homepage presentation content
+
+**Page-scoped modules (`app/src/lib/content/`) — DEC-021:**
+All inner-page content modules live here. One file per page.
+- `content/coaching.ts` — Coaching page copy ✅
+- `content/tournaments.ts` — Tournaments page copy (planned)
+- `content/chess-puzzles.ts` — Chess Puzzles page copy (planned)
+- `content/corporate.ts` — Corporate page copy (planned)
+- `content/team.ts` — Team page copy (planned)
+- `content/contact.ts` — Contact page copy (planned)
+
+> **Convention (DEC-021):** All future page-scoped content modules must be created under `app/src/lib/content/`. The four existing root-level modules (`home.ts`, `brand.ts`, `navigation.ts`, `footer.ts`) are not migrated.
 
 ### Component Map
 
 #### Layout Components
-- `<NavPill />` — Floating glass navigation pill with nav links + CTA
-- `<MobileMenu />` — Full-screen overlay drawer for mobile
-- `<Footer />` — Brand statement, links, legal
-- `<AmbientOrbs />` — Fixed background ambient glow layers
-- `<WhatsAppWidget />` — Fixed floating chat widget
+- Existing: `<Container />`, `<Section />`, `<Stack />`, `<Grid />`, `<Spacer />`
+- Existing: `<Navbar />` — Floating glass navigation shell with desktop links, mobile trigger, and CTA
+- Existing: `<NavLink />` — Shared navigation link rendering
+- Existing: `<MobileMenu />` — Full-screen overlay drawer for mobile
+- Existing: `<Footer />` — Brand statement, links, legal
+- Planned: `<WhatsAppWidget />` — Fixed floating chat widget
 
 #### UI Primitives
-- `<GlassCard />` — Core glassmorphic card with spotlight hover effect
-- `<Badge />` — Pill badge with optional pulse dot
-- `<Button />` — Primary, Ghost, Outline variants
-- `<SectionLabel />` — Uppercase cyan category label
-- `<GradientText />` — Emerald-to-cyan gradient text
-- `<TabNav />` / `<TabPanel />` — Tab switcher component
-- `<Accordion />` — FAQ collapsible accordion
-- `<AnimatedCounter />` — Number tick animation
-- `<ScrollReveal />` — IntersectionObserver scroll reveal wrapper
+- Existing: `<Button />` — Primary, secondary, outline, ghost variants
+- Existing: `<Card />` — Glass/elevated visual container
+- Existing: `<Heading />`, `<Text />`, `<Label />`, `<Badge />`
+- Existing: `<Logo />`, `<LogoMark />`
+- Planned where needed: tab, accordion, and shared scroll/counter abstractions
 
 #### Chess Components
-- `<HeroChessBoard />` — 8×8 CSS grid, visual only, never playable
+- Current: Hero Section includes a visual-only chess board inside `<Hero />`
+- Planned: Extracted chess visual component only if reuse makes it necessary
 
 #### Page-Level Section Components
-- `<HeroSection />`, `<StatsRow />`, `<MissionBox />`
-- `<CoachingCategoryGrid />`, `<RoadmapGrid />`, `<TrainingWeekTable />`
-- `<TournamentCard />`, `<PastTournamentCard />`
-- `<PuzzleCard />`, `<CartItem />`, `<CheckoutForm />`
-- `<TeamCard />`, `<TeamCategorySection />`
-- `<ContactForm />`, `<LocationMiniCard />`, `<ContactInfoBlock />`
+- Existing: `<Hero />`, `<Stats />`, `<Mission />`
+- Homepage: All 11 sections ✅ Complete (CM013–CM023)
+- Planned inner pages: Coaching, Tournaments (2 tabs), Chess Puzzles (Demo + Puzzle Deck), Corporate, Team, Contact
+- Planned commerce: Cart, Checkout, Razorpay (Phase 8–9)
 
 ---
 
 ## Backend Architecture
 
-### API Routes (Next.js App Router)
+### API Routes (Next.js App Router — Planned Phase 5)
 
-All backend logic lives inside Next.js. No separate server.
+All backend logic will live inside Next.js. No separate server.
 
 | Method | Route | Purpose |
 |---|---|---|
 | `GET` | `/api/tournaments` | Fetch tournament list |
 | `GET` | `/api/puzzles` | Fetch puzzle catalog |
+| `GET` | `/api/products` | Fetch Puzzle Deck product |
 | `POST` | `/api/cart` | Add/update cart items |
 | `POST` | `/api/checkout` | Initiate checkout session |
 | `POST` | `/api/payment/verify` | Verify Razorpay payment signature |
 
-### Module Responsibilities
+### Module Responsibilities (Planned)
 
 | Module | Responsibility |
 |---|---|
@@ -191,12 +190,12 @@ Transition timing: `cubic-bezier(0.16, 1, 0.3, 1)`.
 
 ---
 
-## Cart Flow Architecture
+## Commerce Flow Architecture (Planned — Phase 8–9)
 
 ```
-Products Page / Homepage CTA
+Puzzle Deck "Add to Cart" (Chess Puzzles page)
         ↓
-     Cart UI
+     Cart Drawer
         ↓
    Checkout Form
         ↓
@@ -215,8 +214,9 @@ Products Page / Homepage CTA
 
 | Integration | Phase | Notes |
 |---|---|---|
-| Supabase | 9 | Database + auth |
-| Razorpay | 10 | Indian payment gateway |
+| Supabase (Database) | 6 | Products, orders, puzzles, tournaments |
+| Supabase (Auth) | 7 | Email/password authentication |
+| Razorpay | 9 | Indian payment gateway |
 | Vercel | 11 | Hosting + edge functions |
 
 ---
