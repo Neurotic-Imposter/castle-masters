@@ -8,7 +8,7 @@
 ## Current Session
 
 **Date**: 2026-07-11
-**Focus**: Final stabilization pass (pre-CM028) + CM027 Corporate page
+**Focus**: Final stabilization pass + CM027 Corporate + CM028 Team + CM029 Contact
 **Status**: ✅ Complete
 
 ### What Was Completed This Session
@@ -68,9 +68,34 @@
 - Preview route created (`/cm027-preview`), build/lint/TypeScript verified, deleted
 - Build, lint, TypeScript: all PASS
 
+**CM028 — Team Page:**
+- Created `app/src/lib/content/team.ts` — 5 categories, 8 placeholder member cards sourced verbatim from prototype; all cards clearly communicate placeholder status; `TODO (Founder)` comment on content module
+- Created `app/src/app/team/page.tsx` — Server Component (no `use client`): page header, 5 category sections each with heading + 3-col responsive grid; `MemberCard` internal component (used 8 times, justified); no invented names, ratings, or credentials
+- Preview route created (`/cm028-preview`), build/lint/TypeScript verified, deleted
+- Team footer link confirmed already enabled
+- Build, lint, TypeScript: all PASS
+
+**CM029 — Contact Page:**
+- Created `app/src/lib/content/contact.ts` — `ContactChannel`, `AcademyHub`, `ContactFormCopy`, `ContactPageCopy` interfaces; form copy (7 fields), 3 placeholder contact channels, 4 placeholder hub locations; all `TODO (Founder)` comments on placeholder data
+- Created `app/src/components/contact/ContactForm.tsx` — Client Component (`'use client'`): controlled inputs with `useState`, inline success message on submit (no `alert()`, no backend); accessible labels, `htmlFor`/`id` pairs, `autoComplete` attributes
+- Created `app/src/app/contact/page.tsx` — Server Component: page header, two-column layout (form card | channels + hubs), `<ContactForm />` as client island
+- Preview route created (`/cm029-preview`), build/lint/TypeScript verified, deleted
+- Contact footer link confirmed already enabled
+- Build, lint, TypeScript: all PASS
+
+**CM030 — Frontend QA & Responsive Audit:**
+- Navbar CTA: replaced `window.location.href` with `<Link>` (was causing full page reload, bypassed Next.js router)
+- home.ts: fixed 4 dead hash anchors `/coaching#beginner` etc. → `/coaching` (coaching page has no id attributes)
+- home.ts: removed invented FIDE credential claims from `TEAM_PREVIEW_CONTENT` heading and description
+- footer.ts: added `disabled: true` to Privacy Policy and Terms of Service (pages not yet built)
+- footer.ts: populated `SOCIAL_LINKS` with 5 placeholder entries (Instagram, Facebook, YouTube, LinkedIn, X)
+- Footer.tsx: renders `social.icon` emoji via new `icon` field on `SocialLink` type
+- Build, lint, TypeScript: all PASS
+
 ### Currently Active
 
-- Next task: **CM028 — Team page**
+- CM030 complete — frontend QA signed off; Phase 4 + QA fully complete
+- Next task: **CM031 — Define shared TypeScript types** (Phase 5 backend begins)
 
 ### Homepage Progress
 
@@ -82,8 +107,8 @@
 - Tournaments & Events (CM025) ✅
 - Chess Puzzles (CM026) ✅
 - Corporate (CM027) ✅
-- Team (CM028) 🔲
-- Contact (CM029) 🔲
+- Team (CM028) ✅
+- Contact (CM029) ✅
 
 
 ---

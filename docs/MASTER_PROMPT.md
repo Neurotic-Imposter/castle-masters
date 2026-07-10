@@ -145,14 +145,17 @@ The homepage is **fully implemented** (CM013–CM023):
 11. CTA Section ✅
 12. Footer ✅
 
-**Next task**: CM024 — Coaching page
+**Phase 4 complete** (CM024–CM029). All 6 inner pages implemented.
+
+**Next task**: CM030 — Frontend QA & Responsive Audit (complete before starting Phase 5)
 
 ---
 
 ## Development Phase Order
 
-1. **Phase 4** — Inner pages (Coaching, Tournaments, Chess Puzzles, Corporate, Team, Contact)
-2. **Phase 5** — Backend API routes (static mock data)
+1. **Phase 4** — Inner pages (Coaching, Tournaments, Chess Puzzles, Corporate, Team, Contact) ✅ Complete
+2. **CM030** — Frontend QA & Responsive Audit (gates Phase 5 — must complete before backend begins)
+3. **Phase 5** — Backend API routes (static mock data)
 3. **Phase 6** — Database (Supabase)
 4. **Phase 7** — Authentication
 5. **Phase 8** — Cart & Checkout

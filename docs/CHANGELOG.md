@@ -6,6 +6,47 @@ Format: `[Version] — YYYY-MM-DD — Description`
 
 ---
 
+## [0.9.0] — 2026-07-11 — CM030: Frontend QA & Responsive Audit
+
+### Fixed
+- `Navbar.tsx` — CTA button replaced with `<Link>` (was `window.location.href`, causing full page reload and bypassing Next.js router)
+- `home.ts` — Dead hash anchors `/coaching#beginner`, `/coaching#intermediate`, `/coaching#advanced`, `/coaching#schools` changed to `/coaching` (coaching page has no id attributes)
+- `home.ts` — Removed invented FIDE credential claims from `TEAM_PREVIEW_CONTENT`: heading changed to "Expert Instructors & Coordinators", description updated to remove "certified FIDE professionals"
+- `footer.ts` — Added `disabled: true` to Privacy Policy and Terms of Service links (pages not yet built, were incorrectly live)
+- `footer.ts` — Populated `SOCIAL_LINKS` with 5 placeholder platform entries (Instagram, Facebook, YouTube, LinkedIn, X) with `target="_blank" rel="noopener noreferrer"`; added `icon: string` field to `SocialLink` type
+- `Footer.tsx` — Renders `social.icon` emoji in social links section
+
+### Verified
+- TypeScript: PASS
+- Lint: PASS
+- Build: PASS (all 7 routes static)
+- All 7 pages render correctly: `/`, `/coaching`, `/tournaments`, `/chess-puzzles`, `/corporate`, `/team`, `/contact`
+
+---
+
+## [0.8.9] — 2026-07-11 — CM029: Contact Page
+
+### Added
+- `app/src/lib/content/contact.ts` — Page content module: `ContactChannel`, `AcademyHub`, `ContactFormCopy`, `ContactPageCopy` interfaces; 7-field form copy, 3 placeholder contact channels, 4 placeholder academy hub locations
+- `app/src/components/contact/ContactForm.tsx` — Client Component (`'use client'`): 7 controlled inputs, inline success message on submit (no backend, no `alert()`), accessible labels with `htmlFor`/`id`/`autoComplete`
+- `app/src/app/contact/page.tsx` — Server Component: page header, two-column layout (form | channels + hubs), `ContactForm` as client island; all contact details are clearly placeholder
+
+### Changed
+- Documentation: TASKS.md (CM029 ✅, Phase 4 complete), SESSION.md (current session updated)
+
+---
+
+## [0.8.8] — 2026-07-11 — CM028: Team Page
+
+### Added
+- `app/src/lib/content/team.ts` — Page content module: `TeamMember`, `TeamCategory`, `TeamPageCopy` interfaces; 5 categories (Founders, Coaches, Trainers, Advisors, Operations Team), 8 placeholder member cards sourced verbatim from prototype
+- `app/src/app/team/page.tsx` — Server Component (no `use client`): page header, 5 category sections with 3-col responsive grid; `MemberCard` internal component; all cards communicate placeholder status; no invented names, ratings, or credentials
+
+### Changed
+- Documentation: TASKS.md (CM028 ✅), SESSION.md (current session updated)
+
+---
+
 ## [0.8.7] — 2026-07-11 — CM027: Corporate Page
 
 ### Added
