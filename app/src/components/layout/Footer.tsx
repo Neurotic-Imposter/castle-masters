@@ -87,11 +87,11 @@ const Footer = () => {
                   key={social.platform}
                   href={social.href}
                   aria-label={social.label}
-                  className="text-text-muted hover:text-cyan transition-colors"
+                  className="text-text-muted hover:text-cyan transition-colors text-xl leading-none"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {social.platform}
+                  <span aria-hidden="true">{social.icon}</span>
                 </Link>
               ))}
             </div>

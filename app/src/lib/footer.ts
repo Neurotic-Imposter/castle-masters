@@ -39,12 +39,14 @@ export interface FooterMeta {
 }
 
 export interface SocialLink {
-  /** Platform identifier (e.g., 'twitter', 'linkedin', 'github'). */
+  /** Platform identifier (e.g., 'instagram', 'linkedin'). */
   platform: string;
   /** Profile URL. */
   href: string;
   /** Accessible label. */
   label: string;
+  /** Display icon (emoji or text symbol). */
+  icon: string;
 }
 
 // ─── Footer Columns ──────────────────────────────────────────────────────────
@@ -74,8 +76,8 @@ export const FOOTER_COLUMNS: readonly FooterColumn[] = [
     links: [
       { label: 'Blog', href: '/blog', disabled: true },
       { label: 'Help Center', href: '/help', disabled: true },
-      { label: 'Privacy Policy', href: '/privacy' },
-      { label: 'Terms of Service', href: '/terms' },
+      { label: 'Privacy Policy', href: '/privacy', disabled: true },
+      { label: 'Terms of Service', href: '/terms', disabled: true },
     ],
   },
   {
@@ -101,8 +103,11 @@ export const FOOTER: FooterMeta = {
 
 // ─── Social Links (Future-Proof API) ────────────────────────────────────────
 
-/**
- * Social media links — exported for future rendering.
- * Currently empty; consumers should not render until populated.
- */
-export const SOCIAL_LINKS: readonly SocialLink[] = [] as const;
+/** Social media placeholder links — TODO (Founder): replace with official profile URLs. */
+export const SOCIAL_LINKS: readonly SocialLink[] = [
+  { platform: 'instagram', href: 'https://www.instagram.com/', label: 'Castle Masters on Instagram', icon: '📸' },
+  { platform: 'facebook', href: 'https://www.facebook.com/', label: 'Castle Masters on Facebook', icon: '📘' },
+  { platform: 'youtube', href: 'https://www.youtube.com/', label: 'Castle Masters on YouTube', icon: '▶️' },
+  { platform: 'linkedin', href: 'https://www.linkedin.com/', label: 'Castle Masters on LinkedIn', icon: '💼' },
+  { platform: 'x', href: 'https://x.com/', label: 'Castle Masters on X', icon: '𝕏' },
+] as const;

@@ -28,7 +28,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Logo from '@/components/ui/logo/Logo';
-import Button from '@/components/ui/Button';
 import NavLink from './NavLink';
 import MobileMenu from './MobileMenu';
 import { NAV_ITEMS, NAV_CTA } from '@/lib/navigation';
@@ -103,14 +102,12 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
             {/* ── Desktop CTA + Mobile Hamburger ─────────────────────── */}
             <div className="flex items-center gap-3">
               {/* CTA — hidden on mobile */}
-              <Button
-                variant="primary"
-                size="sm"
-                className="hidden md:inline-flex rounded-full px-5 py-2.5 text-[0.85rem]"
-                onClick={() => { window.location.href = NAV_CTA.href; }}
+              <Link
+                href={NAV_CTA.href}
+                className="hidden md:inline-flex items-center font-medium bg-gradient-to-br from-emerald to-cyan text-bg shadow-glow hover:shadow-glow-strong transition-shadow duration-300 rounded-full px-5 py-2.5 text-[0.85rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
               >
                 {NAV_CTA.label}
-              </Button>
+              </Link>
 
               {/* Hamburger — visible only on mobile */}
               <button

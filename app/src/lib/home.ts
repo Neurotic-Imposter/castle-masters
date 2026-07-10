@@ -153,25 +153,25 @@ export const COACHING_CONTENT = {
       icon: '👶',
       title: 'Beginner Foundations',
       description: 'Learn piece movement, basic tactics, and opening principles through guided play.',
-      href: '/coaching#beginner',
+      href: '/coaching',
     },
     {
       icon: '⚔️',
       title: 'Intermediate Tactics',
       description: 'Master combinations, positional concepts, and tournament-ready repertoire.',
-      href: '/coaching#intermediate',
+      href: '/coaching',
     },
     {
       icon: '🏆',
       title: 'Advanced Competition',
       description: 'Grandmaster-level analysis, psychological preparation, and peak performance training.',
-      href: '/coaching#advanced',
+      href: '/coaching',
     },
     {
       icon: '🏫',
       title: 'School Programs',
       description: 'Curriculum-aligned chess education delivered in-school or after-school.',
-      href: '/coaching#schools',
+      href: '/coaching',
     },
   ] as const,
 } as const;
@@ -311,9 +311,9 @@ export const TEAM_PREVIEW_CONTENT: TeamPreviewCopy = {
   titleLines: ['The', 'Castle Team'],
   meetCta: { label: 'Meet Team →', href: '/team' },
   icon: '👥',
-  heading: 'FIDE-Certified Instructors & Coordinators',
+  heading: 'Expert Instructors & Coordinators',
   description:
-    'Our coaching team consists of certified FIDE professionals and active chess organizers who deliver structured curriculums designed for growth.',
+    'Our coaching team comprises experienced chess instructors and active organizers who deliver structured curriculums designed for growth at every level.',
   viewAllCta: { label: 'View All Members', href: '/team' },
 } as const;
 
