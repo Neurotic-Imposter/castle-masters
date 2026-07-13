@@ -28,8 +28,8 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const variantMap: Record<CardVariant, string> = {
-  glass: 'bg-bg-card border border-border backdrop-blur-[12px]',
-  elevated: 'bg-bg-card border border-border backdrop-blur-[12px] shadow-glow',
+  glass: 'bg-bg-card border border-border backdrop-blur-card',
+  elevated: 'bg-bg-card border border-border backdrop-blur-card shadow-glow',
 };
 
 const paddingMap: Record<CardPadding, string> = {

@@ -68,7 +68,23 @@ export default function ContactPage() {
                         <Text size="xs" color="muted" className="uppercase tracking-badge font-semibold">
                           {channel.label}
                         </Text>
-                        <Text size="sm">{channel.value}</Text>
+                        {channel.label.toLowerCase().includes('phone') ? (
+                          <a
+                            href="tel:+919818006599"
+                            className="text-sm text-foreground hover:text-emerald transition-colors focus:outline-none focus:underline"
+                          >
+                            {channel.value}
+                          </a>
+                        ) : channel.label.toLowerCase().includes('email') ? (
+                          <a
+                            href={`mailto:${channel.value}`}
+                            className="text-sm text-foreground hover:text-emerald transition-colors focus:outline-none focus:underline"
+                          >
+                            {channel.value}
+                          </a>
+                        ) : (
+                          <Text size="sm">{channel.value}</Text>
+                        )}
                       </div>
                     </div>
                   ))}

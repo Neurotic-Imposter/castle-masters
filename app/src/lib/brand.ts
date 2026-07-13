@@ -19,15 +19,15 @@ export const BRAND = {
     /**
      * Full logo lockup (mark + wordmark).
      * Primary consumers: Navbar, Footer, OpenGraph, Manifest.
-     * Place the asset at: public/logo/logo-full.svg
+     * Asset: public/logos/logo-dark.png (cream logo on dark background, square emblem)
      */
-    logo: "/logo/logo-full.svg",
+    logo: "/logos/logo-dark.png",
 
     /**
      * Logo mark only (icon without wordmark).
      * Primary consumers: mobile nav, cards, loading states, favicon contexts.
-     * Place the asset at: public/logo/logo-mark.svg
+     * Asset: public/logos/logo-square.png
      */
-    mark: "/logo/logo-mark.svg",
+    mark: "/logos/logo-square.png",
   },
 } as const;

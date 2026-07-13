@@ -109,9 +109,9 @@ export const CONTACT_PAGE_CONTENT: ContactPageCopy = {
     heading: 'Contact Channels',
     items: [
       // TODO (Founder): Replace placeholder values with real contact info.
-      { icon: '📞', label: 'Phone Channel',    value: '+91 99999 99999' },
+      { icon: '📞', label: 'Phone Channel',    value: '+91 98180 06599' },
       { icon: '✉️', label: 'Support Email',    value: 'support@castlemasters.in' },
-      { icon: '💬', label: 'WhatsApp Channel', value: '+91 99999 99999' },
+      { icon: '💬', label: 'WhatsApp Channel', value: 'To Be Decided' },
     ] as const,
   },
 

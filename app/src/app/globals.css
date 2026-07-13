@@ -2,7 +2,7 @@
 
 :root {
   /* COLORS */
-  --bg: #030303;
+  --bg: #0a0e14;
   --bg-card: rgba(15, 15, 20, 0.6);
   --bg-card-hover: rgba(25, 25, 35, 0.8);
   --border: rgba(255, 255, 255, 0.06);
@@ -13,7 +13,8 @@
   --text: #F9FAFB;
   --text-muted: #9CA3AF;
   --glass: rgba(10, 10, 10, 0.7);
-  --glass-nav: rgba(10, 10, 10, 0.8);
+  --glass-nav: rgba(10, 14, 20, 0.35);
+  --overlay: rgba(10, 14, 20, 0.6);
 
   /* TYPOGRAPHY */
   --font-weight-light: 300;
@@ -66,10 +67,11 @@
 
   /* ELEVATION & EFFECTS */
   --shadow-glow: 0 0 30px rgba(16, 185, 129, 0.15);
-  --shadow-nav: 0 10px 40px rgba(0, 0, 0, 0.5);
+  --shadow-glow-strong: 0 0 45px rgba(16, 185, 129, 0.35);
+  --shadow-nav: inset 0 1px 1px 0 rgba(255, 255, 255, 0.1), 0 10px 40px rgba(0, 0, 0, 0.5);
   --blur-card: 12px;
   --blur-menu: 20px;
-  --blur-nav: 24px;
+  --blur-nav: 30px;
   --blur-orb: 120px;
 
   /* MOTION */
@@ -101,11 +103,13 @@
   --color-text-muted: var(--text-muted);
   --color-glass: var(--glass);
   --color-glass-nav: var(--glass-nav);
+  --color-overlay: var(--overlay);
 
   /* Typography */
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-heading);
+  --font-mono-accent: var(--font-mono-accent);
   --font-weight-light: var(--font-weight-light);
   --font-weight-regular: var(--font-weight-regular);
   --font-weight-medium: var(--font-weight-medium);
@@ -156,6 +160,7 @@
 
   /* Elevation */
   --shadow-glow: var(--shadow-glow);
+  --shadow-glow-strong: var(--shadow-glow-strong);
   --shadow-nav: var(--shadow-nav);
   --blur-card: var(--blur-card);
   --blur-menu: var(--blur-menu);

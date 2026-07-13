@@ -11,7 +11,7 @@
 */
 
 :where(.cm-root) {
-  --cm-bg: #05080a;
+  --cm-bg: var(--bg);
   --cm-surface: rgba(255, 255, 255, 0.035);
   --cm-surface-strong: rgba(255, 255, 255, 0.06);
   --cm-border: rgba(255, 255, 255, 0.09);

@@ -32,7 +32,7 @@ export const HomeCTA = () => {
     <section className="py-20 md:py-28">
       <Container size="default">
         <div
-          className="rounded-[30px] border border-border text-center px-8 py-20"
+          className="rounded-3xl border border-border text-center px-8 py-20"
           style={{
             background:
               'linear-gradient(135deg, rgba(16,185,129,0.05), rgba(6,182,212,0.05))',

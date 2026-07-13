@@ -15,7 +15,7 @@ export default function PuzzleDemoPage() {
     <div
       className="cm-root"
       style={{
-        background: "#05080a",
+        background: "var(--bg)",
         minHeight: "100svh",
       }}
     >

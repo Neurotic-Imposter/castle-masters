@@ -129,7 +129,12 @@ const ChessBoardPlaceholder = ({ className = '' }: ChessBoardPlaceholderProps) =
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-[calc(100vh-180px)] flex items-center">
+    <section 
+      className="relative min-h-[calc(100vh-180px)] flex items-center"
+      style={{
+        background: 'linear-gradient(to bottom, #030303 0%, var(--bg) 100%)',
+      }}
+    >
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         {HERO_CONTENT.ambientOrbs.map((orb, index) => (
           <div

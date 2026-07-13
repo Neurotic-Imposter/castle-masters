@@ -43,7 +43,7 @@ export const FAQ = () => {
           {items.map((item) => (
             <details
               key={item.question}
-              className="group border border-border rounded-[16px] overflow-hidden bg-bg-card backdrop-blur-[12px] transition-colors duration-300 hover:border-[rgba(16,185,129,0.2)]"
+              className="group border border-border rounded-lg overflow-hidden bg-bg-card backdrop-blur-card transition-colors duration-300 hover:border-border-hover"
             >
               <summary className="flex items-center justify-between gap-4 px-8 py-5 cursor-pointer font-heading font-semibold text-foreground transition-colors duration-300 hover:text-emerald list-none [&::-webkit-details-marker]:hidden">
                 <Text as="span" size="base" className="font-heading font-semibold text-foreground group-open:text-emerald transition-colors duration-300">

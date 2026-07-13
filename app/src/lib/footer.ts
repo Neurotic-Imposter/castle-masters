@@ -78,7 +78,7 @@ export const FOOTER: FooterMeta = {
 
 /** TODO (Founder): replace placeholder hrefs with official Castle Masters profile URLs. */
 export const SOCIAL_LINKS: readonly SocialLink[] = [
-  { platform: 'instagram', href: 'https://www.instagram.com/', label: 'Castle Masters on Instagram' },
+  { platform: 'instagram', href: 'https://www.instagram.com/castlemastersofficial?utm_source=qr', label: 'Castle Masters on Instagram' },
   { platform: 'facebook', href: 'https://www.facebook.com/', label: 'Castle Masters on Facebook' },
   { platform: 'whatsapp', href: 'https://www.whatsapp.com/', label: 'Contact Castle Masters on WhatsApp' },
   { platform: 'youtube', href: 'https://www.youtube.com/', label: 'Castle Masters on YouTube' },

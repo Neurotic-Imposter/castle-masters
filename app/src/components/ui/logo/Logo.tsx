@@ -57,13 +57,12 @@ const sizeMap: Record<LogoSize, number> = {
 
 /**
  * Intrinsic width used for next/image layout calculation.
- * Assumes approximately 4:1 aspect ratio for a full lockup.
- * Adjust once the real asset's dimensions are known.
+ * Logo is a square emblem (1:1 aspect ratio).
  */
 const intrinsicWidthMap: Record<LogoSize, number> = {
-  sm: 112,
-  md: 136,
-  lg: 176,
+  sm: 28,
+  md: 34,
+  lg: 44,
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -115,7 +114,6 @@ const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
             width={width}
             height={height}
             onError={() => setHasError(true)}
-            unoptimized   // SVGs do not benefit from Next.js raster optimisation
             priority
             style={{ height, width: 'auto' }}
           />
