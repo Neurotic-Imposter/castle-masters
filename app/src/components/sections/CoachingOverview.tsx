@@ -76,7 +76,7 @@ export const CoachingOverview = () => (
 
       <Grid columns={4} gap="lg" className="max-[1024px]:grid-cols-2 max-[480px]:grid-cols-1">
         {COACHING_CONTENT.cards.map((card) => (
-          <CoachingCard key={card.href} {...card} />
+          <CoachingCard key={card.title} {...card} />
         ))}
       </Grid>
     </Container>

@@ -68,13 +68,13 @@ const MobileMenu = ({ isOpen, onClose, currentPath }: MobileMenuProps) => {
       aria-label="Navigation menu"
       aria-hidden={!isOpen}
       className={`
-        fixed inset-0 z-overlay flex flex-col items-center justify-center gap-8
+        fixed inset-0 flex flex-col items-center justify-center gap-8
         backdrop-blur-[20px]
         motion-safe:transition-transform motion-safe:duration-[500ms] motion-safe:ease-spring
         motion-reduce:transition-none
         ${isOpen ? 'translate-y-0 pointer-events-auto' : '-translate-y-full pointer-events-none'}
       `}
-      style={{ background: 'rgba(3, 3, 3, 0.95)' }}
+      style={{ background: 'rgba(3, 3, 3, 0.95)', zIndex: 999 }}
     >
       {NAV_ITEMS.map((item) => (
         <NavLink

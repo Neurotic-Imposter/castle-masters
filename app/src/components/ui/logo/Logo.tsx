@@ -83,16 +83,30 @@ const Logo = React.forwardRef<HTMLDivElement, LogoProps>(
       >
         {hasError ? (
           /*
-           * Development fallback — shown when the asset is not yet present
-           * in public/logo/logo-full.svg. Renders the brand name as plain
-           * text using existing design tokens so layout is preserved.
-           * Remove once the real asset is in place.
+           * Development fallback — matches prototype logo style (mark + wordmark).
+           * Rendered when public/logo/logo-full.svg is not yet present.
+           * Replace with real <Image> once the brand asset is delivered.
            */
-          <span
-            className="font-heading font-bold text-foreground"
-            style={{ fontSize: height * 0.55 }}
-          >
-            {BRAND.name}
+          <span className="inline-flex items-center gap-2.5" style={{ height }}>
+            <span
+              aria-hidden="true"
+              className="flex items-center justify-center rounded-full text-bg font-bold shrink-0"
+              style={{
+                width: height,
+                height: height,
+                fontSize: height * 0.55,
+                background: 'linear-gradient(135deg, #10B981, #06B6D4)',
+                boxShadow: '0 0 15px rgba(16, 185, 129, 0.4)',
+              }}
+            >
+              ♔
+            </span>
+            <span
+              className="font-heading font-bold text-foreground"
+              style={{ fontSize: height * 0.47 }}
+            >
+              {BRAND.name}
+            </span>
           </span>
         ) : (
           <Image

@@ -32,11 +32,12 @@ export interface NavLinkProps {
   /** Additional className — callers control desktop vs mobile visual differences. */
   className?: string;
   onClick?: () => void;
+  tabIndex?: number;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-const NavLink = ({ item, isActive, className = '', onClick }: NavLinkProps) => {
+const NavLink = ({ item, isActive, className = '', onClick, tabIndex }: NavLinkProps) => {
   const baseStyles = 'relative font-medium transition-colors duration-[300ms] cursor-pointer';
   const activeStyles = isActive ? 'text-emerald' : 'text-text-muted hover:text-emerald';
 
@@ -45,6 +46,7 @@ const NavLink = ({ item, isActive, className = '', onClick }: NavLinkProps) => {
       <span
         className={`${baseStyles} opacity-40 cursor-not-allowed ${className}`.trim()}
         aria-disabled="true"
+        tabIndex={-1}
       >
         {item.label}
       </span>
@@ -56,6 +58,7 @@ const NavLink = ({ item, isActive, className = '', onClick }: NavLinkProps) => {
       href={item.href}
       aria-current={isActive ? 'page' : undefined}
       onClick={onClick}
+      tabIndex={tabIndex}
       className={`${baseStyles} ${activeStyles} ${className}`.trim()}
     >
       {item.label}

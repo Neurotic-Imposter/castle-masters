@@ -8,39 +8,13 @@ import Text from '@/components/ui/Text';
 import Label from '@/components/ui/Label';
 import Badge from '@/components/ui/Badge';
 import { CHESS_PUZZLES_PAGE_CONTENT, type PuzzleCard } from '@/lib/content/chess-puzzles';
+import { PuzzleDemoSection } from './PuzzleDemoSection';
 
 export const metadata = {
   title: 'Chess Puzzles',
   description:
     'Tactical chess puzzles and training products. Solve mate-in-N challenges and explore the Castle Masters Puzzle Deck.',
 };
-
-// ─── Available Puzzle Card ────────────────────────────────────────────────────
-
-const AvailablePuzzleCard = ({ icon, title, description }: PuzzleCard) => (
-  <Card padding="lg" hoverable className="flex flex-col gap-5 items-start">
-    <Badge variant="emerald">Available Now</Badge>
-    <span className="text-4xl" aria-hidden="true">
-      {icon}
-    </span>
-    <div className="flex flex-col gap-2 flex-1">
-      <Heading as="h3" size="title" className="text-lg">
-        {title}
-      </Heading>
-      <Text size="sm" color="muted" className="leading-relaxed">
-        {description}
-      </Text>
-    </div>
-    {/* Demo not yet implemented — CTA disabled until interactive route is built. */}
-    <span
-      aria-disabled="true"
-      className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium rounded-xl bg-emerald/10 text-emerald/40 cursor-not-allowed select-none"
-      title="Interactive demo coming soon"
-    >
-      Demo Coming Soon
-    </span>
-  </Card>
-);
 
 // ─── Coming Soon Puzzle Card ──────────────────────────────────────────────────
 
@@ -92,11 +66,7 @@ export default function ChessPuzzlesPage() {
           <Heading as="h2" size="section" className="mb-8 text-foreground">
             {available.heading}
           </Heading>
-          <Grid columns={2} gap="lg" className="max-[600px]:grid-cols-1">
-            {available.cards.map((card) => (
-              <AvailablePuzzleCard key={card.id} {...card} />
-            ))}
-          </Grid>
+          <PuzzleDemoSection cards={available.cards} />
         </Container>
       </Section>
 
